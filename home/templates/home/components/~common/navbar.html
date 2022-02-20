@@ -1,0 +1,82 @@
+<header class="short-header">
+  <div class="gradient-block"></div>
+
+  <div class="row header-content">
+    <div class="logo" onclick="window.location='/'">
+      <img href="{% url 'home:index' %}" />
+      <span> | NERDSWAY</span>
+    </div>
+
+    {% with request.path as current_url %}
+    <nav id="main-nav-wrap">
+      <ul class="main-navigation sf-menu">
+        <li class="{% if current_url == "/" %}current{% endif %}">
+          <a href="{% url 'home:index' %}" title="">Home</a>
+        </li>
+        <li class="{% if "blog" in current_url %}current{% endif %}">
+          <a href="{% url 'blog:blog' %}" title="">Blog</a>
+        </li>
+        <li class="{% if "about" in current_url %}current{% endif %}">
+          <a href="{% url 'home:about' %}" title="">About</a>
+        </li>
+        <li class="{% if "contact" in current_url %}current{% endif %}">
+          <a href="{% url 'home:contact' %}" title="">Contact</a>
+        </li>
+        <li class="{% if "support" in current_url %}current{% endif %}">
+          <a href="{% url 'home:support' %}" title="">Support</a>
+        </li>
+        <li class="{% if "faq" in current_url %}current{% endif %}">
+          <a href="{% url 'home:faqs' %}" title="">FAQ</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="has-children {% if "myprofile" in current_url %}current{% endif %}">
+          <a href="#" title="">Me</a>
+          <ul class="sub-menu">
+            <li><a href="{% url 'blog:submit' %}">Write a Blog</a></li>
+            <li><a href="{% url 'account:user_profile' user=request.user %}">Profile</a></li>
+            <hr>
+            <li><a href="{% url 'account:logout' %}">Logout</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="{% if "sign-in" in current_url %}current{% endif %}">
+          <a href="{% url 'account:signin' %}" title="">Login</a>
+        </li>
+        <li class="{% if "sign-up" in current_url %}current{% endif %}">
+          <a href="{% url 'account:signup' %}" title="">Register</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endwith %}
+    <!-- end main-nav-wrap -->
+
+    <div class="search-wrap">
+      <form class="search-form" id="search-form">
+        <label>
+          <span class="hide-content">Search for:</span>
+          <input
+            type="search"
+            class="search-field"
+            id="search-field"
+            placeholder="Type Your Keywords"
+            value=""
+            name="s"
+            title="Search for:"
+            autocomplete="off"
+          />
+        </label>
+        <input type="submit" class="search-submit" value="Search" />
+      </form>
+
+      <a href="#" id="close-search" class="close-btn">Close</a>
+    </div>
+    <!-- end search wrap -->
+
+    <div class="triggers">
+      <a class="search-trigger" href="#"><i class="fa fa-search"></i></a>
+      <a class="menu-toggle" href="#"><span>Menu</span></a>
+    </div>
+    <!-- end triggers -->
+  </div>
+</header>

@@ -1,0 +1,151 @@
+{% extends 'home/base.html' %}
+{% load home_tags %}
+{% load account_tags %}
+
+{% block meta %}
+{% include 'home/components/~common/meta.html' with meta_title=user.userprofile.get_full_name|add:' (@'|add:user.username|add:') | NerdsWay' meta_desc=user.userprofile.bio %}
+{% robots %}
+{% endblock meta %}
+
+{% block title %}
+{{user.userprofile.get_full_name}} (@{{user.username}}) | NerdsWay
+{% endblock title %}
+
+{% block css %}
+.upper-section {
+    display: flex;
+    flex-direction: row;
+}
+
+.upper-section img, .upper-section h1 {
+    display: inline;
+    margin-top: 0;
+}
+
+.upper-section img, .upper-section svg {
+    width: 240px;
+    height: 240px;
+    vertical-align: top;
+    border-radius: 50%;
+    user-select: none;
+}
+
+.about-user {
+    max-width: 600px;
+    margin-top: 2em;
+    margin-left: 4em;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 3;
+}
+
+.about-user div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+.about-user div button {
+    margin-left: 1em;
+    font-size: 1.2em;
+}
+.about-user .bio {
+    word-break: break-word;
+}
+
+.about-user .socials a {
+    color: #000;
+    font-size: 1.5em;
+    margin-right: 1em;
+}
+
+.lower-section {
+    margin-top: 2em;
+}
+
+.tabs {
+    text-align: right;
+    border-bottom: 1px solid #ccc;
+}
+.tabs a {
+    color: unset;
+}
+
+.tab-content {
+    margin-top: 2em;
+}
+
+@media all and (max-width: 768px) {
+    .upper-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .upper-section img, .upper-section h1 {
+        display: block;
+        margin-top: 0.5em;
+    }
+    .upper-section img, .upper-section svg {
+        height: auto;
+    }
+}
+
+{% endblock css %}
+
+{% block body %}
+
+    <div class="main">
+        <div class="upper-section">
+            {% profile_pic user %}
+
+            <div class="about-user">
+                <div>
+                    <h1 class="name">{{user.userprofile.get_full_name}} @{{user.username}}</h1>
+                    {% if can_edit %}
+                    <button onclick="window.location='{% url 'account:user_profile_edit' %}';">Edit</button>
+                    {% endif %}
+                </div>
+                <p class="bio">{{user.userprofile.bio}}</p>
+                <div class="socials">
+                    {% if user.userprofile.facebook %}
+                        <a href="https://facebook.com/{{user.userprofile.facebook}}" target="_blank"><i class="fa fa-facebook"></i></a>
+                    {% endif %}
+                    {% if user.userprofile.twitter %}
+                        <a href="https://twitter.com/{{user.userprofile.twitter}}" target="_blank"><i class="fa fa-twitter"></i></a>
+                    {% endif %}
+                    {% if user.userprofile.instagram %}
+                        <a href="https://instagram.com/{{user.userprofile.instagram}}" target="_blank"><i class="fa fa-instagram"></i></a>
+                    {% endif %}
+                    {% if user.userprofile.website %}
+                        <a href="{{user.userprofile.website}}" target="_blank"><i class="fa fa-link"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="lower-section">
+            <div class="tabs">
+                <a href="{{request.get_absolute_path}}?"><button class="button {% if not tab %}button-primary{% endif %}">About</button></a>
+                <a href="{{request.get_absolute_path}}?tab=blogs"><button class="button {% if tab == 'blogs' %}button-primary{% endif %}">Blogs</button></a>
+                <a href="{{request.get_absolute_path}}?tab=tips"><button class="button {% if tab == 'tips' %}button-primary{% endif %}">Tips</button></a>
+            </div>
+
+            <div class="tab-content">
+                {% if tab == 'blogs' %}
+                    <ul>
+                    {% for blog in blogs %}
+                    <li>
+                        <a href="{% url 'blog:detail' slug=blog.slug %}">{{blog}}</a>
+                         - {{blog.get_datetime}}
+                        
+                         ---
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if tab == 'tips' %}
+                    <h1>feature coming soon</h1>
+                {% endif %}
+        </div>
+    </div>
+
+{% endblock body %}

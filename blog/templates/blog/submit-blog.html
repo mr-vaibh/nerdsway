@@ -1,0 +1,85 @@
+{% extends 'home/base.html' %}
+{% load account_tags %}
+
+{% block title %}Write a Blog | NerdsWay{% endblock title %}
+
+{% block head %}
+{{ form.media }}
+{% endblock head %}
+
+{% block css %}
+.alert .danger {
+    color: red
+}
+input, textarea {
+    width: 100%;
+}
+form [type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
+
+#id_body {
+    background-color: unset;
+}
+
+{% endblock css %}
+
+{% block body %}
+
+<section id="content-wrap">
+    <div class="row">
+        
+        <div class="alert">
+            <div class="danger">
+                {{form.errors.documents.0}}
+            </div>
+        </div>
+
+        <br />
+        
+        <div class="col-twelve">
+            <form action="{% url 'blog:submit' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for element in form %}
+                <div class="form-group">
+                    <label for="title">{{element.label}}</label>
+                    {{element}}
+                </div>
+            {% endfor %}
+
+            <div class="form-group">
+                <label for="tags">Tags &lpar;comma seperated&rpar;</label>
+                <input type="text" name="tags" id="tags">
+            </div>
+            
+            <br />
+            <br />
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock body %}
+
+{% comment %} {% block js %}
+tinymce.init({
+    selector: '#id_body',
+    height: 900,
+    plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'table emoticons template paste help'
+    ],
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+      'forecolor backcolor emoticons | help',
+    menu: {
+      favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
+    },
+    menubar: 'favs file edit view insert format tools table help',
+});
+{% endblock js %} {% endcomment %}

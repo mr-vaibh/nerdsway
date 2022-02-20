@@ -1,0 +1,35 @@
+{% load account_tags %}
+
+<blog class="brick entry format-standard animate-this">
+  {% if blog.thumb %}
+  <div class="entry-thumb">
+    <a href="{% url 'blog:detail' slug=blog.slug %}" class="thumb-link">
+      <img src="{{blog.thumb.url}}" alt="{{blog.thumb_alt}}" />
+    </a>
+  </div>
+  {% endif %}
+
+  <div class="entry-text">
+    <div class="entry-header">
+      <h1 class="entry-title">
+        <a href="{% url 'blog:detail' slug=blog.slug %}">{{blog.title}}</a>
+      </h1>
+    </div>
+
+    <div class="entry-excerpt">
+    {% if blog.show_excerpt %}
+      {{blog.excerpt}}
+    {% else %}
+      {{blog.body|striptags|truncatechars:255}}
+    {% endif %}
+    </div>
+
+    <ul class="entry-meta">
+      <span class="cat-links">
+        {% user_name blog.author href=True %}
+        {{blog.get_datetime |date:"M d, Y"}}
+      </span>
+      </span>	
+    </ul>
+  </div>
+</blog>

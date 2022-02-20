@@ -1,0 +1,63 @@
+{% extends 'home/base.html' %}
+
+
+{% block title %}Tag: {{ tag }} | NerdsWay{% endblock title %}
+
+{% block body %}
+
+<!-- page header
+		================================================== -->
+<section id="page-header">
+	<div class="row current-cat">
+		<div class="col-full">
+			<h1>Tag: {{ tag }}</h1>
+		</div>
+	</div>
+</section>
+
+<!-- masonry
+		================================================== -->
+<section id="bricks" class="with-top-sep">
+	<div class="row masonry">
+		<!-- brick-wrapper -->
+		<div class="bricks-wrapper">
+			<div class="grid-sizer"></div>
+
+			{% for blog in blogs %}
+			{% include 'home/components/card/general-card.html' with blog=blog %}
+			{% endfor %}
+			
+		</div>
+		<!-- end brick-wrapper -->
+	</div>
+	<!-- end row -->
+
+	{% if is_paginated %}
+		<div class="row">
+				<nav class="pagination">
+						{% if page_obj.has_previous %}
+								<a href="?page={{ page_obj.previous_page_number }}" class="page-numbers prev">Prev</a>
+						{% else %}
+								<span class="page-numbers prev inactive">Prev</span>
+						{% endif %}
+
+						{% for i in paginator.page_range %}
+								{% if page_obj.number == i %}
+										<span class="page-numbers current">{{ i }}</span>
+								{% else %}
+										<a href="?page={{ i }}" class="page-numbers">{{ i }}</a>
+								{% endif %}
+						{% endfor %}
+
+						{% if page_obj.has_next %}
+								<a href="?page={{ page_obj.next_page_number }}" class="page-numbers next">Next</a>
+						{% else %}
+								<span class="page-numbers next inactive">Next</span>
+						{% endif %}
+				</nav>
+		</div>
+	{% endif %}
+</section>
+<!-- bricks -->
+
+{% endblock body %}

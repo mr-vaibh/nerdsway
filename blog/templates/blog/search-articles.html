@@ -1,0 +1,163 @@
+{% extends 'home/base.html' %}
+
+{% block title %}
+Search: {{query}} | NerdsWay
+{% endblock title %}
+
+{% block css %}
+.filters {;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+.filters h3 {
+    margin-left: 0.8em;
+    margin-right: 0.8em;
+}
+.filters select, .filters button {
+    height: 2em;
+    line-height: unset;
+    padding: 0 1em 0 1em;
+    width: 10em;
+}
+.filters button {
+    margin-left: 0.8em;
+    margin-right: 0.8em;
+}
+.filters input::active {
+    background-color: #fafafa;
+}
+
+.blog {
+    display: flex;
+    flex-direction: row;
+}
+
+.blog img {
+    width: 10em;
+    height: 10em;
+}
+
+.blog-details {
+    margin-left: 1em;
+}
+
+.blog-details p {
+    margin-bottom: 1em;
+}
+.blog-details p.read-more {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {    
+    .blog img {
+        width: 5em;
+        height: 5em;
+    }
+
+    .blog-details {
+        margin-left: 0.5em;
+    }
+
+    .blog-details h2 {
+        font-size: 1.2em;
+        margin-bottom: 0;
+    }
+    .blog-details p {
+        font-size: 0.7em;
+        line-height: 1.5em;
+        margin-bottom: 0;
+    }
+    .blog-details .extras {
+        font-size: 0.7em;
+    }
+}
+
+{% endblock css %}
+
+{% block body %}
+
+    <div class="main">
+        <form class="filters" action="{% url 'blog:search' query=query %}">
+            <h3>Filters:</h3>
+            <select name="sort_by" id="filter">
+                <option value="">default</option>
+                <option value="popular" {% if filters.sory_by == "popular" %}selected{% endif %}>popular</option>
+                <option value="newest" {% if filters.sort_by == "newest" %}selected{% endif %}>newest first</option>
+                <option value="oldest" {% if filters.sort_by == "oldest" %}selected{% endif %}>oldest first</option>
+            </select>
+            
+            <h3>Range:</h3>
+            <input type="date" name="date_from" value="{{filters.date_from}}">
+            <h3>to</h3>
+            <input type="date" name="date_to" value="{{filters.date_to}}">
+            <button class="button-primary" type="submit">Apply</button>
+        </form>
+
+        <h1> {{blogs|length}} search result{{blogs|length|pluralize}} found for '{{query}}':</h1>
+
+        {% if blogs|length == 0 %}
+        <h1>Try searching in date range</h1>
+        {% endif %}
+
+        {% for blog in blogs %}
+            <div class="blog">
+                {% if blog.thumb %}
+                    <img src="{{blog.thumb.url}}" alt="{{blog.thumb_alt}}">
+                {% endif %}
+                <div class="blog-details">
+                    <h2><a href="{% url 'blog:detail' slug=blog.slug %}">{{blog.title}}</a></h2>
+                    <p class="body">
+                    {% if blog.show_excerpt %}
+                        {{blog.excerpt}}
+                    {% else %}
+                        {{blog.body|striptags|truncatechars:255}}
+                    {% endif %}
+                    </p>
+                    <p class="read-more">
+                        <a href="{% url 'blog:detail' slug=blog.slug %}">Read more</a>
+                    </p>
+
+                    <span class="extras">
+                        <span class="date">{{blog.get_datetime|date:"d M Y \a\t h:m a"}}</span>
+                        by
+                        <span class="author">
+                            <a href="{% url 'account:user_profile' user=blog.author %}">{{blog.author.userprofile.get_full_name}}</a>
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <hr>
+        {% endfor %}
+
+        {% if is_paginated %}
+        <div class="row">
+            <nav class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'blog:search' query=query %}?page={{ page_obj.previous_page_number }}" class="page-numbers prev">Prev</a>
+                {% else %}
+                    <span class="page-numbers prev inactive">Prev</span>
+                {% endif %}
+
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <span class="page-numbers current">{{ i }}</span>
+                    {% else %}
+                        <a href="{% url 'blog:search' query=query %}?page={{ i }}" class="page-numbers">{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="{% url 'blog:search' query=query %}?page={{ page_obj.next_page_number }}" class="page-numbers next">Next</a>
+                {% else %}
+                    <span class="page-numbers next inactive">Next</span>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+    </div>
+
+{% endblock body %}

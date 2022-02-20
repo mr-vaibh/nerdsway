@@ -1,0 +1,17 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Blog Created Successfully | NerdsWay{% endblock title %}
+
+{% block body %}
+
+<section id="content-wrap" style="padding: 0 7em;">
+    {% if messages %}
+        {% for message in messages %}
+            <h1>{{ message|safe }}</h1>
+        {% endfor %}
+    {% else %}
+        <script>window.location="{% url 'blog:submit' %}"</script>
+    {% endif %}
+</section>
+
+{% endblock body %}

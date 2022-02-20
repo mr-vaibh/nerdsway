@@ -1,0 +1,72 @@
+{% extends 'home/base.html' %}
+{% load home_tags %}
+
+{% block title %}Edit Profile | NerdsWay{% endblock title %}
+
+{% block meta %}
+{% robots %}
+{% endblock meta %}
+
+{% block css %}
+input, textarea {
+    width: 100%;
+}
+textarea {
+    resize: none;
+}
+form [type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
+select:focus, textarea:focus, input:focus {
+    background-color: #dcdcdc !important;
+    caret-color: #000000;
+    color: #000000 !important;
+}
+
+.toolbar {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+.toolbar a {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+}
+.toolbar .divider::after {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+    color: #747474;
+    content: '|';
+}
+{% endblock css %}
+
+{% block body %}
+
+<section id="content-wrap">
+    <div class="row">
+
+    <form action="{% url 'account:user_profile_edit' %}" method="post">
+        {% csrf_token %}
+        
+        {% for element in form %}
+            <div class="form-group">
+            <label for="title">{{element.label}}:</label>
+            {{element}}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    </div>
+</section>
+
+{% endblock body %}

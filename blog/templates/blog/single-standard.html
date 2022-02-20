@@ -1,0 +1,173 @@
+{% extends 'home/base.html' %}
+{% load humanize %}
+{% load hitcount_tags %}
+{% load account_tags %}
+
+{% block meta %}
+{% include 'home/components/~common/meta.html' with meta_title=blog.title meta_desc=blog.body|striptags|truncatechars:150 %}
+{% endblock meta %}
+
+{% block title %}
+{{ blog.title }} | by {{blog.author.userprofile.get_full_name}} | NerdsWay
+{% endblock title %}
+
+{% block body %}
+   <!-- content
+   ================================================== -->
+   <section id="content-wrap" class="blog-single">
+   	<div class="row">
+   		<div class="col-twelve">
+
+   			<article class="format-standard">  
+				
+				{% if blog.thumb %}
+				<div class="content-media">
+					<div class="post-thumb">
+						<img src="{{blog.thumb.url}}" alt="{{blog.thumb_alt}}" style="max-height: 20em;">
+					</div>
+				</div>
+				{% endif %}
+
+				<div class="primary-content">
+
+					<h1 class="page-title">{{blog.title}}</h1>	
+
+					<ul class="entry-meta">
+						{% user_name blog.author href=True %}
+						- <li class="date">{{blog.get_datetime |date:"F j, Y, g:i a"}}</li>
+						<br>
+						
+						{% get_hit_count for blog as views %}
+						<span style="color: #000000;">{{ views |intcomma }} view{{ views |pluralize }}</span>
+
+					</ul>
+
+					<div class="entry-excerpt">
+						{% if blog.show_excerpt_in_blog %}
+						<p class="lead">{{blog.excerpt}}</p>
+						{% endif %}
+					</div>
+
+					{{blog.body | safe}}
+
+					<p class="tags">
+						<span>Tagged in :</span>
+						{% for tag in blog.tags.all %}
+						<a href="{% url 'home:tag_page' tag=tag %}">{{tag}}</a>
+						{% endfor %}
+					</p>
+
+					{% with blog.author.userprofile as author %}
+						<div class="author-profile">
+							{% profile_pic blog.author %}
+
+							<div class="about">
+								<h4>{% user_name blog.author href=True %}</h4>
+
+								<p>{{author.bio}}</p>
+
+								<ul class="author-social">
+									{% if author.facebook %}
+									<li><a target="_blank" href="https://facebook.com/{{author.facebook}}">Facebook</a></li>
+									{% endif %}
+									{% if author.twitter %}
+									<li><a target="_blank" href="https://twitter.com/{{author.twitter}}">Twitter</a></li>
+									{% endif %}
+									{% if author.instagram %}
+									<li><a target="_blank" href="https://instagram.com/{{author.instagram}}">Instagram</i></a></li>					        	
+									{% endif %}
+									{% if author.website %}
+									<li><a target="_blank" href="{{author.website}}">Website</a></li>
+									{% endif %}
+								</ul>
+							</div>
+						</div> <!-- end author-profile -->						
+					{% endwith %}
+
+				</div> <!-- end entry-primary -->
+
+			</article>
+	
+			<br><br>
+
+		</div> <!-- end col-twelve -->
+   	</div> <!-- end row -->
+
+		<div class="comments-wrap">
+			<div id="comments" class="row">
+				<div class="col-full">
+
+               <h3>{{ comments|length }} Comment{{ comments|length|pluralize }} </h3>
+
+               <!-- commentlist -->
+               	<ol class="commentlist">
+					{% for comment in comments %}
+					<li class="depth-1">
+
+						<div class="avatar">
+						{% if comment.user %}
+							{% profile_pic comment.user %}
+						{% else %}
+							<svg data-jdenticon-value="{{ comment.email }}" title="this image is unique for your Email ID"></svg>
+						{% endif %}
+						</div>
+
+						<div class="comment-content">
+
+							<div class="comment-info">
+								<cite>{{ comment.name }}</cite>
+
+								<div class="comment-meta">
+								<time class="comment-time" datetime="2014-07-12T23:05">{{ comment.datetime |date:"F j, Y @ g:i a"}} </time>
+								</div>
+							</div>
+
+							<div class="comment-text">
+								<p>{{ comment.body }}</p>
+							</div>
+
+						</div>
+
+					</li>
+					{% endfor %}
+
+               	</ol> <!-- Commentlist End -->					
+
+               <!-- respond -->
+               <div class="respond">
+
+               	<h3>Leave a Comment</h3>
+
+                  <form name="contactForm" id="contactForm" method="post" action="">
+  					   <fieldset>
+
+                     <div class="form-field">
+  						      <input name="cName" type="text" id="cName" class="full-width" placeholder="Your Name" value="">
+                     </div>
+
+                     <div class="form-field">
+  						      <input name="cEmail" type="text" id="cEmail" class="full-width" placeholder="Your Email" value="">
+                     </div>
+
+                     <div class="form-field">
+  						      <input name="cWebsite" type="text" id="cWebsite" class="full-width" placeholder="Website"  value="">
+                     </div>
+
+                     <div class="message form-field">
+                        <textarea name="cMessage" id="cMessage" class="full-width" placeholder="Your Message" ></textarea>
+                     </div>
+
+                     <button type="submit" class="submit button-primary">Submit</button>
+
+  					   </fieldset>
+  				      </form> <!-- Form End -->
+
+               </div> <!-- Respond End -->
+
+         	</div> <!-- end col-full -->
+         </div> <!-- end row comments -->
+		</div> <!-- end comments-wrap -->
+
+   </section> <!-- end content -->
+
+{% endblock body %}

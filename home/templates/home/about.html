@@ -1,0 +1,112 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block meta %}
+{% include 'home/components/~common/meta.html' with meta_title='NerdsWay' meta_desc='NerdsWay is an Indian non-profit organization that publishes news, disclosures, classified media provided by sources, media critique, reportage and satirical views on current happenings around. It was founded in 2021 by Vaibhav Shukla in India under the holding company MRVAIBH Inc., started in 2019 that has been providing multi-sector benefits for the last 2 years.' %}
+{% endblock meta %}
+
+{% block title %} About Us | NerdsWay {% endblock title %}
+
+{% block css %}
+.content-media img {
+  max-height: 300px;
+  width: auto;
+}
+.content-media h1 {
+  position: relative;
+  left: 0.8em;
+  margin-top: 2em;
+  text-align: left;
+}
+.drop-cap::first-letter {
+  padding-top: 1rem;
+}
+@media all and (max-width: 820px) {
+  .content-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .content-media h1 {
+    left: unset;
+    text-align: center;
+    margin-top: 0.8em;
+  }
+}
+{% endblock css %}
+
+{% block body %}
+<!-- content
+   ================================================== -->
+<section id="content-wrap" class="site-page">
+  <div class="row">
+    <div class="col-twelve">
+      <section>
+
+        <div class="row content-media">
+          <img class="col-six tab-full" src="{% static 'home/images/favicon.png' %}" />
+          <h1 class="entry-title col-six tab-full" style="font-size: 3.3em">NERDSWAY</h1>
+        </div>
+
+        <div class="primary-content">
+
+          <p class="drop-cap">
+            &nbsp;NerdsWay is an Indian non-profit organization
+            that publishes news, disclosures, classified media provided by sources,
+            media critique, reportage and satirical views on current happenings around.
+            It was founded in 2021 by&nbsp;<a href="https://en.everybodywiki.com/MrVaiBH">Vaibhav Shukla</a>
+            &nbsp;in India under the holding company&nbsp;<a href="https://mrvaibh.fandom.com/wiki/MrVaiBH_Wiki">MRVAIBH Inc.</a>,
+            started in 2019 that has been providing multi-sector benefits for the last 2 years.
+          </p>
+
+          <p>
+            Transparent, unbiased and open source, NerdsWay is a platform for the public to share their views and opinions.
+            If necessary, the platform can be used to publish any type of information in/opposite the favour of party to action.
+            But it is not limited to news, reports and classified media, the platform is capable of publishing some persecuted documents
+            which might cause some controversies.
+          </p>
+
+          <h1 class="entry-title add-bottom">What NT is NOT?</h1>
+
+          <p>
+            NerdsWay is not a propaganda or propaganda-related website.
+            It is not meant to spread extreme hate &lpar;or even love&rpar; on government, politics or any cultural belief.
+          </p>
+
+          <div class="row block-1-2 block-tab-full">
+            <div class="bgrid">
+              <h3>non-profit.</h3>
+              <p>The organization is independent of any source of revenue other than <a href="https://buymeacoffee.com/mrvaibh" target="_blank">BuyMeACoffee.com</a> support. There are NO ads, as we don't intend to sell our supporters' data and our self-esteem to advertisers. We do not demand any other donation than your precious time and support.</p>
+            </div>
+
+            <div class="bgrid">
+              <h3>free voice.</h3>
+              <p>Not for the sake of saying, but for the sake of democracy, we actually believe in free voice. All the blogs, media and other terms of information go through our <a href="/editing-policies">Editing Policies</a>. Come, join us, we HAVE to save our <a href="https://www.lawctopus.com/academike/freedom-of-speech-and-expression/" target="_blank">Right to Freedom of Speech</a> culture.</p>
+            </div>
+
+            <div class="bgrid">
+              <h3>neutrality meter.</h3>
+              <p>Like no other media company, we do have a fool-proof methodology to calculate the neutrality &lpar;how unbiased&rpar; of an information. The scale is between 1 to 10 and literally anyone &lpar;who is an <abbr title="An active registered individual on NerdsWay">NTian</abbr>&rpar; can vote for it. Also, there are no chances of spam by creating multiple accounts, our system is capable of handling those situations.</p>
+            </div>
+
+            <div class="bgrid">
+              <h3>privacy.</h3>
+              <p>In a very simple and laymans' language we have justified our Policies. Your data/information is safe and our sources are anonymous. We DO  NOT take privacy lightly.</p>
+            </div>
+
+          </div>
+
+          <p class="lead">
+            Note: This site only exist to keep democracy alive and free voice relevent. Nothing more, nothing less.
+          </p>
+        </div>
+        </div>
+      </section>
+    </div>
+    <!-- end col-twelve -->
+  </div>
+  <!-- end row -->
+</section>
+<!-- end content -->
+
+{% endblock body %}

@@ -1,0 +1,57 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Contact Us | NerdsWay{% endblock title %}
+
+{% block css %}
+textarea {
+    resize: none;
+}
+{% endblock css %}
+
+{% block body %}
+
+	<!-- content
+	================================================== -->
+	<section id="content-wrap" class="site-page">
+		<div class="row">
+			<div class="col-twelve">
+
+				<section>
+
+					<div class="primary-content">
+
+						<h1 class="entry-title add-bottom">Get In Touch With Us.</h1>	
+
+						<p class="lead">ask anything, but geniune.</p> 
+
+						<form name="cForm" id="cForm" method="post" action="https://formspree.io/f/mqkwnzow">
+							<fieldset>
+
+								<div class="form-field">
+									<input name="name" type="text" id="cName" class="full-width" placeholder="Your Name" value="">
+								</div>
+
+								<div class="form-field">
+										<input name="_replyto" type="text" id="cEmail" class="full-width" placeholder="Your Email" value="">
+								</div>
+
+								<div class="form-field">
+									<input name="_subject" type="text" id="cSubject" class="full-width" placeholder="Subject" value="">
+								</div>
+
+								<div class="message form-field">
+									<textarea name="message" id="cMessage" class="full-width" placeholder="Your Message" ></textarea>
+								</div>
+
+								<button type="submit" class="submit button-primary full-width-on-mobile">Submit</button>
+
+							</fieldset>
+						</form> <!-- end form -->
+
+				</section>
+
+			</div> <!-- end col-twelve -->
+			</div> <!-- end row -->		
+	</section> <!-- end content -->
+
+{% endblock body %}

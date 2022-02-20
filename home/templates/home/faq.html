@@ -1,0 +1,115 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Faqs | NerdsWay{% endblock title %}
+
+{% block css %}
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+}
+.collapsible:after {
+  content: '\02795'; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+.active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.primary-content p {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+.primary-content a {
+  text-decoration: underline;
+}
+{% endblock css %}
+
+{% block body %}
+
+<section id="content-wrap" class="site-page">
+  <div class="row">
+    <div class="col-twelve">
+      <section>
+
+        <div class="row content-media">
+          <h1 class="entry-title col-full tab-full">Frequently Asked Questions</h1>
+        </div>
+
+        <div class="primary-content">
+          {% for faq in faqs %}
+          <h3 class="collapsible">{{ faq.question|capfirst }}</h3>
+          {{ faq.answer | safe }}
+          {% endfor %}
+        </div>
+              
+        <p class="lead">
+          Note: you can also ASK through our <a href="{% url 'home:contact' %}">contact form</a>.
+        </p>
+
+        {% if is_paginated %}
+          <div class="row">
+              <nav class="pagination">
+                  {% if page_obj.has_previous %}
+                      <a href="?page={{ page_obj.previous_page_number }}" class="page-numbers prev">Prev</a>
+                  {% else %}
+                      <span class="page-numbers prev inactive">Prev</span>
+                  {% endif %}
+
+                  {% for i in paginator.page_range %}
+                      {% if page_obj.number == i %}
+                          <span class="page-numbers current">{{ i }}</span>
+                      {% else %}
+                          <a href="?page={{ i }}" class="page-numbers">{{ i }}</a>
+                      {% endif %}
+                  {% endfor %}
+
+                  {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}" class="page-numbers next">Next</a>
+                  {% else %}
+                      <span class="page-numbers next inactive">Next</span>
+                  {% endif %}
+              </nav>
+          </div>
+        {% endif %}
+      </section>
+    </div>
+    <!-- end col-twelve -->
+  </div>
+  <!-- end row -->
+</section>
+
+{% endblock body %}
+
+
+{% block js %}
+const coll = document.getElementsByClassName("collapsible");
+let i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+{% endblock js %}

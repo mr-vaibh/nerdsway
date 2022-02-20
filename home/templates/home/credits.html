@@ -1,0 +1,57 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Credits | NerdsWay{% endblock title %}
+
+{% block css %}
+.credit-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.credit-section {
+    padding-left: 2em;
+}
+@media all and (max-width: 768px) {
+    .credit-wrapper {
+        flex-direction: column;
+    }
+    .main {
+        padding-left: 3em;
+    }
+}
+{% endblock css %}
+
+{% block body %}
+
+<div class="main">
+    <h1>Special Thanks to</h1>
+
+    <div class="credit-wrapper">
+        <div class="credit-section">
+            <h3># Individuals and Entities</h3>
+            <ul>
+                <li><a target="_blank" href="https://g.co/kgs/XUehn5">Narendra Damodardas Modi</a></li>
+                <li><a target="_blank" href="https://wikileaks.org/">Wikileaks</a></li>
+                <li><a target="_blank" href="https://stackoverflow.com/">Stackoverflow Community</a></li>
+            </ul>
+        </div>
+        
+        <div class="credit-section">
+            <h3># Sofwares</h3>
+            <ul>
+                <li><a target="_blank" href="https://www.djangoproject.com/">Django Framework</a></li>
+                <li><a target="_blank" href="https://pillow.readthedocs.io/en/stable/">Pillow library</a></li>
+                <li><a target="_blank" href="https://django-tinymce.readthedocs.io/en/latest/">TinyMCE library</a></li>
+                <li><a target="_blank" href="https://jdenticon.com/">Jdenticon library</a></li>
+                <li><a target="_blank" href="https://django-hitcount.readthedocs.io/en/latest/">Hitcount library</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <p class="lead">
+        for their non-profit and open-source support.
+    </p>
+    
+</div>
+
+{% endblock body %}

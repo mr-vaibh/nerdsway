@@ -1,0 +1,50 @@
+{% load static %}
+{% load account_tags %}
+
+<div class="brick entry featured-grid animate-this">
+  <div class="entry-content">
+    <div id="featured-post-slider" class="flexslider">
+      <ul class="slides">
+        {% for blog in featured_blogs %}
+        <li>
+          <div class="featured-post-slide">
+            <div
+              class="post-background"
+              style="
+                {% if blog.thumb %}
+                background-image: url('{{blog.thumb.url}}');
+                {% else %}
+                background-image: url('{% static 'home/images/default.png' %}');
+                {% endif %}
+              "
+            ></div>
+
+            <div class="overlay"></div>
+
+            <div class="post-content">
+              <ul class="entry-meta">
+                <li>{{blog.get_datetime |date:"F j, Y, g:i a"}}</li>
+                <li>
+                  {% user_name blog.author href=True %}
+                </li>
+              </ul>
+
+              <h1 class="slide-title">
+                <a href="{% url 'blog:detail' slug=blog.slug %}" title="{{blog.title}}">
+                {{blog.title}}
+                </a>
+              </h1>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+        <!-- /slide -->
+
+        <!-- end slide -->
+      </ul>
+      <!-- end slides -->
+    </div>
+    <!-- end featured-post-slider -->
+  </div>
+  <!-- end entry content -->
+</div>

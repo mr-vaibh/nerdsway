@@ -1,0 +1,20 @@
+{% load static %}
+
+<meta name="title" content="{{meta_title}}">
+<meta name="description" content="{{meta_desc}}">
+<meta name="robots" content="index, follow">
+
+<meta property="og:url" content="{{request.build_absolute_uri}}">
+<meta property="og:title" content="{{meta_title}}">
+<meta property="og:image" content="http://{{request.get_host}} {% static 'home/images/favicon.png' %}">
+<meta property="og:site_name" content="NerdsWay">
+<meta property="og:description" content="{{meta_desc}}">
+
+<meta itemprop="name" content="{{meta_title}}">
+<meta itemprop="description" content="{{meta_desc}}">
+<meta itemprop="image" content="http://{{request.get_host}}{% static 'home/images/favicon.png' %}">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{meta_title}}">
+<meta name="twitter:description" content="{{meta_desc}}">
+<meta name="twitter:image" content="http://{{request.get_host}}{% static 'home/images/favicon.png' %}">
