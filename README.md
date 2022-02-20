@@ -18,6 +18,8 @@
 
 ## TODOs
  - edit post feature
+ - add tag search dropdown
+ - add pills css to tags
 
  Advanced TODOs:
  - Push notifications - https://fcm-django.readthedocs.io/en/latest/
