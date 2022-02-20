@@ -20,8 +20,12 @@
  - edit post feature
  - add tag search dropdown
  - add pills css to tags
+ - subscribe modal and feature
+ - RSS feed for every user
 
  Advanced TODOs:
+ - create a recommendation system
+ - Recommendation system - https://django-recommends.readthedocs.io/en/latest/
  - Push notifications - https://fcm-django.readthedocs.io/en/latest/
  - Jinja Templating - https://jinja.palletsprojects.com/en/3.0.x/switching/#django
 

@@ -51,8 +51,9 @@ class UserProfileEditView(UpdateView):
         return self.get_redirect_url(self.request.user)
     
     def get_redirect_url(self, user):
-        return reverse_lazy('account:user_profile_edit',
-                            current_app='account')
+        return reverse_lazy('account:user_profile',
+                            current_app='account',
+                            kwargs={'user': user})
 
 
 class LogoutView(View):

@@ -11,26 +11,29 @@
     <nav id="main-nav-wrap">
       <ul class="main-navigation sf-menu">
         <li class="{% if current_url == "/" %}current{% endif %}">
-          <a href="{% url 'home:index' %}" title="">Home</a>
+          <a href="{% url 'home:index' %}">Home</a>
         </li>
         <li class="{% if "blog" in current_url %}current{% endif %}">
-          <a href="{% url 'blog:blog' %}" title="">Blog</a>
+          <a href="{% url 'blog:blog' %}">Blog</a>
         </li>
         <li class="{% if "about" in current_url %}current{% endif %}">
-          <a href="{% url 'home:about' %}" title="">About</a>
+          <a href="{% url 'home:about' %}">About</a>
         </li>
         <li class="{% if "contact" in current_url %}current{% endif %}">
-          <a href="{% url 'home:contact' %}" title="">Contact</a>
+          <a href="{% url 'home:contact' %}">Contact</a>
         </li>
         <li class="{% if "support" in current_url %}current{% endif %}">
-          <a href="{% url 'home:support' %}" title="">Support</a>
+          <a href="{% url 'home:support' %}">Support</a>
         </li>
         <li class="{% if "faq" in current_url %}current{% endif %}">
-          <a href="{% url 'home:faqs' %}" title="">FAQ</a>
+          <a href="{% url 'home:faqs' %}">FAQ</a>
+        </li>
+        <li class="{% if "subscribe" in current_url %}current{% endif %}">
+          <a href="#subscribe" style="color: #d20000;font-weight:bold;font-size:1.2em;">SUBSCRIBE</a>
         </li>
         {% if request.user.is_authenticated %}
         <li class="has-children {% if "myprofile" in current_url %}current{% endif %}">
-          <a href="#" title="">Me</a>
+          <a href="#">Me</a>
           <ul class="sub-menu">
             <li><a href="{% url 'blog:submit' %}">Write a Blog</a></li>
             <li><a href="{% url 'account:user_profile' user=request.user %}">Profile</a></li>
@@ -40,10 +43,10 @@
         </li>
         {% else %}
         <li class="{% if "sign-in" in current_url %}current{% endif %}">
-          <a href="{% url 'account:signin' %}" title="">Login</a>
+          <a href="{% url 'account:signin' %}">Login</a>
         </li>
         <li class="{% if "sign-up" in current_url %}current{% endif %}">
-          <a href="{% url 'account:signup' %}" title="">Register</a>
+          <a href="{% url 'account:signup' %}">Register</a>
         </li>
         {% endif %}
       </ul>
