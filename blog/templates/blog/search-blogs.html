@@ -1,4 +1,5 @@
 {% extends 'home/base.html' %}
+{% load account_tags %}
 
 {% block title %}
 Search: {{query}} | NerdsWay
@@ -112,7 +113,7 @@ Search: {{query}} | NerdsWay
                     {% if blog.show_excerpt %}
                         {{blog.excerpt}}
                     {% else %}
-                        {{blog.body|striptags|truncatechars:255}}
+                        {{blog.body|striptags|safe|truncatechars:255}}
                     {% endif %}
                     </p>
                     <p class="read-more">
@@ -120,10 +121,10 @@ Search: {{query}} | NerdsWay
                     </p>
 
                     <span class="extras">
-                        <span class="date">{{blog.get_datetime|date:"d M Y \a\t h:m a"}}</span>
+                        <span class="date">{{blog.get_datetime|date:"d M Y"}}</span>
                         by
                         <span class="author">
-                            <a href="{% url 'account:user_profile' user=blog.author %}">{{blog.author.userprofile.get_full_name}}</a>
+                            {% user_name blog.author href=True %}
                         </span>
                     </span>
                 </div>

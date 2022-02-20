@@ -1,3 +1,4 @@
+from ctypes import Union
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -31,7 +32,7 @@ class SearchBlogsListView(ListView):
     def get_queryset(self):
         blogs = super(SearchBlogsListView, self).get_queryset()
         query = self.kwargs.get('query', None)
-        blogs = Blog.objects.filter(title__icontains=query)
+        blogs = (Blog.objects.filter(title__icontains=query) | Blog.objects.filter(body__icontains=query))
 
         sort_by = self.request.GET.get('sort_by', '')
         date_from = self.request.GET.get('date_from', '')
