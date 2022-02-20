@@ -21,5 +21,5 @@ class UserProfileEditForm(ModelForm):
 
         widgets = {
             'phone': NumberInput(),
-            'dob': DateInput(format=('%d/%m/%Y'), attrs={'type':'date'}),
+            'dob': DateInput(format=('%Y-%m-%d'), attrs={'type':'date'}),
         }

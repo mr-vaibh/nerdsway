@@ -65,7 +65,7 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
     template_name = 'blog/submit-blog.html'
     context_object_name = 'blog'
     success_url = reverse_lazy('blog:submit-success')
-    success_message = 'Your blog request has been submitted successfully'
+    success_message = 'Your blog has been created successfully'
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()

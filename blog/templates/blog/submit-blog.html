@@ -30,11 +30,12 @@ form [type=checkbox] {
 <section id="content-wrap">
     <div class="row">
         
-        <div class="alert">
-            <div class="danger">
-                {{form.errors.documents.0}}
-            </div>
+        {% if form.errors %}
+        <div class="alert-box ss-error hideit">
+            <p>{{form.errors}}</p>
+            <i class="fa fa-times close"></i>
         </div>
+        {% endif %}
 
         <br />
         
@@ -64,22 +65,3 @@ form [type=checkbox] {
 </section>
 
 {% endblock body %}
-
-{% comment %} {% block js %}
-tinymce.init({
-    selector: '#id_body',
-    height: 900,
-    plugins: [
-      'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-      'table emoticons template paste help'
-    ],
-    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-      'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-      'forecolor backcolor emoticons | help',
-    menu: {
-      favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
-    },
-    menubar: 'favs file edit view insert format tools table help',
-});
-{% endblock js %} {% endcomment %}
