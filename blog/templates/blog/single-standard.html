@@ -11,6 +11,12 @@
 {{ blog.title }} | by {{blog.author.userprofile.get_full_name}} | NerdsWay
 {% endblock title %}
 
+{% block css %}
+#content-wrap .entry-title, #content-wrap .page-title {
+	font-size: 2.4em;
+}
+{% endblock css %}
+
 {% block body %}
    <!-- content
    ================================================== -->
@@ -35,10 +41,15 @@
 					<ul class="entry-meta">
 						{% user_name blog.author href=True %}
 						- <li class="date">{{blog.get_datetime |date:"F j, Y, g:i a"}}</li>
+						
 						<br>
 						
-						{% get_hit_count for blog as views %}
-						<span style="color: #000000;">{{ views |intcomma }} view{{ views |pluralize }}</span>
+						<span style="color: #000000;">
+							{% get_hit_count for blog as views %}
+							<i class="fa-solid fa-eye"></i> {{ views |intcomma }} view{{ views |pluralize }}
+							&nbsp;&nbsp;
+							<i class="fa-solid fa-clock"></i> {{ blog.get_read_time }} mins read
+						</span>
 
 					</ul>
 

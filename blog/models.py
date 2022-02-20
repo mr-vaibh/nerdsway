@@ -1,3 +1,4 @@
+from tkinter.tix import Select
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from hitcount.models import HitCount, HitCountMixin
@@ -50,6 +51,16 @@ class Blog(models.Model, HitCountMixin):
     
     def get_datetime(self):
         return datetime.combine(self.date, self.time)
+    
+    def get_read_time(self):
+        from html import unescape
+        from django.utils.html import strip_tags
+        
+        string = self.title + unescape(strip_tags(self.body))
+        print(string)
+        total_words = len((string).split())
+
+        return round(total_words / 200)
 
     def get_absolute_url(self):
         kwargs = {
