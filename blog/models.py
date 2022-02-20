@@ -57,7 +57,6 @@ class Blog(models.Model, HitCountMixin):
         from django.utils.html import strip_tags
         
         string = self.title + unescape(strip_tags(self.body))
-        print(string)
         total_words = len((string).split())
 
         return round(total_words / 200)
