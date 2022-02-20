@@ -29,7 +29,7 @@
           <a href="{% url 'home:faqs' %}">FAQ</a>
         </li>
         <li class="{% if "subscribe" in current_url %}current{% endif %}">
-          <a href="#subscribe" style="color: #d20000;font-weight:bold;font-size:1.2em;">SUBSCRIBE</a>
+          <a href="#" id="subscribe_link">SUBSCRIBE</a>
         </li>
         {% if request.user.is_authenticated %}
         <li class="has-children {% if "myprofile" in current_url %}current{% endif %}">
