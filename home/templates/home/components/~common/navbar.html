@@ -13,8 +13,8 @@
         <li class="{% if current_url == "/" %}current{% endif %}">
           <a href="{% url 'home:index' %}">Home</a>
         </li>
-        <li class="{% if "blog" in current_url %}current{% endif %}">
-          <a href="{% url 'blog:blog' %}">Blog</a>
+        <li class="{% if "nwb" in current_url %}current{% endif %}">
+          <a href="{% url 'blog:nwb' %}">NWB</a>
         </li>
         <li class="{% if "about" in current_url %}current{% endif %}">
           <a href="{% url 'home:about' %}">About</a>

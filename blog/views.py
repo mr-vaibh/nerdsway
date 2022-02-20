@@ -76,6 +76,7 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
             tags = self.request.POST.get('tags', []).split(',')
 
             tags.remove('featured')
+            tags.remove('nwb')
 
             for tag in tags:
                 try:
@@ -86,14 +87,14 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
                 
             return self.form_valid(form)
 
-class BlogView(ListView):
+class NWBView(ListView):
     model = Blog
-    template_name = 'blog/blog.html'
+    template_name = 'blog/nwb.html'
     context_object_name = 'blogs'
 
     def get_queryset(self):
-        blogs = super(BlogView, self).get_queryset()
-        blogs = blogs.filter(tags__name='blog').order_by('-date')
+        blogs = super(NWBView, self).get_queryset()
+        blogs = blogs.filter(tags__name='nwb').order_by('-date')
         return blogs
 
 

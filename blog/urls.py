@@ -9,5 +9,5 @@ urlpatterns = [
     path('write-new-blog/', views.BlogCreateView.as_view(), name='submit'),
     path('submit/success/', views.blog_creation_success, name='submit-success'),
     path('search/<str:query>/', views.SearchBlogsListView.as_view(), name='search'),
-    path('blog/', views.BlogView.as_view(), name='blog'),
+    path('nwb/', views.NWBView.as_view(), name='nwb'),
 ]
