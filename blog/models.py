@@ -28,7 +28,31 @@ class Tag(models.Model):
         verbose_name_plural = 'Tags'
 
 
+class BlogQuerySet(models.QuerySet):
+    def search(self, **kwargs):
+        queryset = self
+
+        search_query = kwargs.get('query', None)
+        queryset = (queryset.filter(title__icontains=search_query) | queryset.filter(body__icontains=search_query))
+
+        sort_by = kwargs.get('sort_by', '')
+        date_from = kwargs.get('date_from', '')
+        date_to = kwargs.get('date_to', '')
+
+        if sort_by == 'popular':
+            queryset = queryset.order_by('-hit_count_generic__hits')
+        elif sort_by == 'newest':
+            queryset = queryset.order_by('-date')
+        elif sort_by == 'oldest':
+            queryset = queryset.order_by('date')
+        
+        if date_from and date_to:
+            queryset = queryset.filter(date__range=(date_from, date_to))
+        return queryset
+
 class Blog(models.Model, HitCountMixin):
+    objects = BlogQuerySet.as_manager()
+
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
     title = models.CharField(max_length=100)
     tags = models.ManyToManyField(Tag, blank=True, related_name='tag')

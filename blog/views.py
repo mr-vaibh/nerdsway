@@ -31,22 +31,13 @@ class SearchBlogsListView(ListView):
     
     def get_queryset(self):
         blogs = super(SearchBlogsListView, self).get_queryset()
-        query = self.kwargs.get('query', None)
-        blogs = (Blog.objects.filter(title__icontains=query) | Blog.objects.filter(body__icontains=query))
-
-        sort_by = self.request.GET.get('sort_by', '')
-        date_from = self.request.GET.get('date_from', '')
-        date_to = self.request.GET.get('date_to', '')
-
-        if sort_by == 'popular':
-            blogs = blogs.order_by('-hit_count_generic__hits')
-        elif sort_by == 'newest':
-            blogs = blogs.order_by('-date')
-        elif sort_by == 'oldest':
-            blogs = blogs.order_by('date')
-        
-        if date_from and date_to:
-            blogs = blogs.filter(date__range=(date_from, date_to))
+        params = {
+            'query': self.kwargs.get('query'),
+            'sort_by': self.request.GET.get('sort_by'),
+            'date_from': self.request.GET.get('date_from'),
+            'date_to': self.request.GET.get('date_to'),
+        }
+        blogs = Blog.objects.search(**params)
         
         return blogs
     
