@@ -1,4 +1,3 @@
-from tkinter.tix import Select
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from hitcount.models import HitCount, HitCountMixin
