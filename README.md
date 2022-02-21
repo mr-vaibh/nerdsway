@@ -20,7 +20,7 @@
  - edit post feature
  - add tag search dropdown
  - add pills css to tags
- - subscribe modal and feature
+ - subscriber email add in maling list
  - RSS feed for every user
 
  Advanced TODOs:
