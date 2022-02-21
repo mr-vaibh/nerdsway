@@ -67,8 +67,10 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
 
             tags = self.request.POST.get('tags', []).split(',')
 
-            tags.remove('featured')
-            tags.remove('nwb')
+            if 'featured' in tags:
+                tags.remove('featured')
+            if 'nwb' in tags:
+                tags.remove('nwb')
 
             for tag in tags:
                 try:
@@ -76,7 +78,28 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
                     form.instance.tags.add(tag_obj)
                 except Tag.DoesNotExist:
                     form.instance.tags.create(name=tag)
-                
+            
+            # Mailing feature
+            from django.core.mail import EmailMultiAlternatives
+            from django.template.loader import render_to_string
+            from html import unescape
+            from django.utils.html import strip_tags
+            from home.models import Subscriber
+
+            mailing_list = [email for email in Subscriber.objects.values_list('email', flat=True)]
+
+            html_content = render_to_string('account/email_template.html', {'title': form.instance.title, 'content': unescape(form.instance.body)})
+            text_content = strip_tags(html_content)
+
+            email = EmailMultiAlternatives(
+                form.instance.title,
+                text_content,
+                '',
+                mailing_list,
+            )
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+            
             return self.form_valid(form)
 
 class NWBView(ListView):

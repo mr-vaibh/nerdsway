@@ -6,6 +6,10 @@ import django_heroku
 
 env = environ.Env(
     DEBUG=(bool, False),
+    EMAIL_BACKEND=(str, 'django.core.mail.backends.smtp.EmailBackend'),
+    EMAIL_HOST=(str, 'smtp.gmail.com'),
+    EMAIL_USE_TLS=(bool, True),
+    EMAIL_PORT=(int, 587),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -49,6 +53,15 @@ MEDIA_URL = '/nerdsway/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 SECURE_SSL_REDIRECT = True
+
+# Email settings
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_URL')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_PORT = env('EMAIL_PORT')
+
 
 # Activate Django-Heroku.
 django_heroku.settings(locals(), staticfiles=False)
