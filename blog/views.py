@@ -67,18 +67,18 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
 
             tags = self.request.POST.get('tags', []).split(',')
 
-            if tags != []:
-                if 'featured' in tags:
-                    tags.remove('featured')
-                if 'nwb' in tags:
-                    tags.remove('nwb')
+            if 'featured' in tags:
+                tags.remove('featured')
+            if 'nwb' in tags:
+                tags.remove('nwb')
 
-                for tag in tags:
+            for tag in tags:
+                if tag.strip():
                     try:
-                        tag_obj = Tag.objects.get(name=tag)
+                        tag_obj = Tag.objects.get(name=tag.strip())
                         form.instance.tags.add(tag_obj)
                     except Tag.DoesNotExist:
-                        form.instance.tags.create(name=tag)
+                        form.instance.tags.create(name=tag.strip())
             
             # Mailing feature
             from django.core.mail import EmailMultiAlternatives
