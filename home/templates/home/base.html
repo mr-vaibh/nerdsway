@@ -78,7 +78,7 @@
 		<div id="subscribe_modal" class="modal">
 			<!-- Modal content -->
 			<div class="modal-content">
-			<span class="close">&times;</span>
+			<span class="close" id="subscribe_close">&times;</span>
 			<form method="POST" action="{% url 'home:subscribe' %}" style="text-align:center;">
 				{% csrf_token %}
 				<h1>Get regular quality content 📃</h1>

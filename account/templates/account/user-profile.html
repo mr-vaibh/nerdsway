@@ -137,7 +137,15 @@
                         <a href="{% url 'blog:detail' slug=blog.slug %}">{{blog}}</a>
                          - {{blog.get_datetime}}
                         
-                         ---
+                         {% if blog.tags.all %}
+                         --- TAGS ---
+                         
+                         {% for tag in blog.tags.all %}
+                         <a href="{% url 'home:tag_page' tag=tag %}">{{ tag }}</a>
+                         {% if not forloop.last %}, {% endif %}
+                         {% endfor %}
+
+                         {% endif %}
                     </li>
                     {% endfor %}
                 </ul>

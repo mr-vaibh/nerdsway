@@ -37,3 +37,4 @@
  - send email on login
  - create custom contact model and functionality
  - reduce (or if necessary then increase) font size, spacing, in pages like search and others
+ - custom 404 page

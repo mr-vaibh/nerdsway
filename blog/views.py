@@ -1,6 +1,6 @@
-from ctypes import Union
-from django.shortcuts import render
-from django.views.generic import ListView, CreateView
+from django.http import Http404, HttpResponseNotAllowed
+from django.shortcuts import redirect
+from django.views.generic import ListView, CreateView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from hitcount.views import HitCountDetailView
 from django.urls import reverse_lazy
@@ -106,6 +106,19 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
             
             return self.form_valid(form)
 
+
+class BlogEditView(UpdateView):
+    model = Blog
+    form_class = BlogForm
+    template_name = 'blog/edit-blog.html'
+    context_object_name = 'blog'
+    pk_url_kwarg = 'blog_id'
+    
+    def get_success_url(self):
+        return reverse_lazy('blog:detail',
+                            current_app='blog',
+                            kwargs={'slug': self.get_object().slug})
+    
 class NWBView(ListView):
     model = Blog
     template_name = 'blog/nwb.html'
@@ -115,3 +128,13 @@ class NWBView(ListView):
         blogs = super(NWBView, self).get_queryset()
         blogs = blogs.filter(tags__name='nwb').order_by('-date')
         return blogs
+
+def delete_blog(request, blog_id):
+    if not request.user.is_authenticated:
+        return redirect(reverse_lazy('account:signin'))
+    
+    if request.method == 'POST':
+        Blog.objects.filter(id=blog_id).delete()
+        return redirect(reverse_lazy('account:user_profile', kwargs={'user': request.user}) + '?tab=blogs')
+    
+    return HttpResponseNotAllowed('Method not allowed')

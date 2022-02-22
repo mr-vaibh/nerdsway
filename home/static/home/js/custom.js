@@ -13,19 +13,19 @@ searchForm.addEventListener('submit', (e) => {
 
 
 // subscribe modal
-const modal = document.getElementById("subscribe_modal");
-const btn = document.getElementById("subscribe_link");
-const span = document.getElementsByClassName("close")[0];
+const subscribe_modal = document.getElementById("subscribe_modal");
+const subscribe_link = document.getElementById("subscribe_link");
+const subscribe_close = document.getElementById("subscribe_close");
 
-btn.onclick = function() {
-    modal.style.display = "block";
+subscribe_link.onclick = function() {
+    subscribe_modal.style.display = "block";
 }
-span.onclick = function() {
-    modal.style.display = "none";
+subscribe_close.onclick = function() {
+    subscribe_modal.style.display = "none";
 }
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (event.target == subscribe_modal) {
+        subscribe_modal.style.display = "none";
     }
 }
 

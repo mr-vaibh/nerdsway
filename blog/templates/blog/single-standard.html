@@ -36,7 +36,7 @@
 
 				<div class="primary-content">
 
-					<h1 class="page-title">{{blog.title}}</h1>	
+					<h1 class="page-title">{{blog.title}}</h1>
 
 					<ul class="entry-meta">
 						{% user_name blog.author href=True %}
@@ -49,6 +49,27 @@
 							<i class="fa-solid fa-eye"></i> {{ views |intcomma }} view{{ views |pluralize }}
 							&nbsp;&nbsp;
 							<i class="fa-solid fa-clock"></i> {{ blog.get_read_time }} mins read
+							{% if blog.author == request.user %}
+							&nbsp;&nbsp;
+							<span onclick="window.location='{% url 'blog:edit' blog_id=blog.id %}';"><i class="fa-solid fa-pen-to-square"></i> Edit</span>
+							&nbsp;&nbsp;
+							<span id="confirm_link"><i class="fa-solid fa-trash"></i> Delete</span>
+							{% endif %}
+
+							<!-- DELETE MODAL HTML -->
+							<div id="confirm_modal" class="modal">
+								<!-- Modal content -->
+								<div class="modal-content">
+								<span class="close" id="confirm_close">&times;</span>
+								<form method="POST" action="{% url 'blog:delete' blog_id=blog.id %}" style="text-align:center;">
+									{% csrf_token %}
+									<h1>Are you sure?</h1>
+									
+									<p style="font-size:1.15em;">This step is irreversible, do you really wanna continue?</p>
+									<button type="submit" class="button button-primary full-width">CONFIRM DELETE</button>
+								</form>
+								</div>
+							</div>
 						</span>
 
 					</ul>
@@ -182,3 +203,22 @@
    </section> <!-- end content -->
 
 {% endblock body %}
+
+{% block js %}
+// confirm delete modal
+const confirm_modal = document.getElementById("confirm_modal");
+const confirm_btn = document.getElementById("confirm_link");
+const confirm_close = document.getElementById("confirm_close");
+
+confirm_btn.onclick = function() {
+    confirm_modal.style.display = "block";
+}
+confirm_close.onclick = function() {
+    confirm_modal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == confirm_modal) {
+        confirm_modal.style.display = "none";
+    }
+}
+{% endblock js %}
