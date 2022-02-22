@@ -37,7 +37,7 @@ const today = new Date();
 const diffTime = Math.abs(today - lastDate);
 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
-if (lastModalPopup === null || diffDays > 1) {
+if (lastModalPopup === null || diffDays > 7) {
     setTimeout(() => {
         btn.click()
         localStorage.setItem('lastModalPopup', new Date())
