@@ -2,7 +2,7 @@
 {% load static %}
 {% load account_tags %}
 
-{% block title %}Write a Blog | NerdsWay{% endblock title %}
+{% block title %}Edit Blog | NerdsWay{% endblock title %}
 
 {% block head %}
 {% comment %} {{ form.media }} {% endcomment %}
@@ -55,7 +55,7 @@ form [type=checkbox] {
 
             <div class="form-group">
                 <label for="tags">Tags &lpar;comma seperated&rpar;</label>
-                <input type="text" name="tags" id="tags">
+                <input type="text" name="tags" id="tags" value="{% for tag in blog.tags.all %} {{ tag }}, {% endfor %}">
             </div>
             
             <br />

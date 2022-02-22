@@ -8,7 +8,8 @@ from .models import Blog
 
 class BlogForm(ModelForm):
     body = CharField(widget=TinyMCE(), label='Write your blog, (fullscreen mode available)')
-    
+    # tags = CharField(label='Tags (comma)')
+
     class Meta:
         model = Blog
         exclude = ['author', 'tags']

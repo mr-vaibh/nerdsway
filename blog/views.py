@@ -65,6 +65,7 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
             form.instance.author = User.objects.get(username=request.user)
             form.instance.save()
 
+            # Adding Tags
             tags = self.request.POST.get('tags', []).split(',')
 
             if 'featured' in tags:
@@ -113,12 +114,26 @@ class BlogEditView(UpdateView):
     template_name = 'blog/edit-blog.html'
     context_object_name = 'blog'
     pk_url_kwarg = 'blog_id'
-    
+
+    def post(self, request, *args, **kwargs):
+        # Updating Tags (first clearing all tags then adding them each)
+        self.get_object().tags.clear()
+        tags = self.request.POST.get('tags', []).split(',')
+
+        for tag in tags:
+            if tag.strip():
+                try:
+                    tag_obj = Tag.objects.get(name=tag.strip())
+                    self.get_object().tags.add(tag_obj)
+                except Tag.DoesNotExist:
+                    self.get_object().tags.create(name=tag.strip())
+        return super().post(request, *args, **kwargs)
+
     def get_success_url(self):
         return reverse_lazy('blog:detail',
                             current_app='blog',
                             kwargs={'slug': self.get_object().slug})
-    
+
 class NWBView(ListView):
     model = Blog
     template_name = 'blog/nwb.html'
