@@ -1,8 +1,13 @@
 {% extends 'home/base.html' %}
 
-{% block title %}Thank You | NerdsWay{% endblock title %}
+{% block title %}{% if is_submitted %} Nice to know you {% else %} Unsubscribe {% endif %} | NerdsWay{% endblock title %}
 
 {% block css %}
+form {
+    margin:auto;
+    width: 70%;
+    text-align:center;
+}
 #post-script {
     font-size: 1.2em;
 }
@@ -11,23 +16,29 @@
 {% block body %}
 
 <section id="content-wrap" style="padding: 0 7em;">
+    {% if is_submitted %}
     <h1>Unsubscribed successfully, sad to see you go away 😢</h1>
     <h3>You'll no longer recieve regular quality content on <a href="mailto:{{ email }}">{{ email }}</a></h3>
-
+    
+    <br>
+    
+    <p id="post-script">PS: We've very responsibly deleted all your existing. So Happy Privacy 🎉</p>
+    
     <a href="{% url 'home:index' %}" class="button button-primary">Back to home</a>
 
-    <form method="POST" id="unsubscribe_form">
+    {% else %}
+
+    <form method="POST" action="{% url 'home:unsubscribe' %}">
         {% csrf_token %}
-        <input type="text" value="{{ email }}" name="subscribe_email" hidden />
+        <h1>Unsubscribe</h1>
+
+        <p style="font-size:1.15em;">Sad to come this way 😢</p>
+        <input type="email" name="unsubscribe_email" placeholder="your@email.plz" style="width: 100%" autocomplete="off">
+        <button type="submit" class="button button-primary full-width">UNSUBSCRIBE</button>
+        
+        <p style="font-style:italics;margin:0;">PS: We are anytime ready to get back 😀</p>
     </form>
+    {% endif %}
 </section>
 
 {% endblock body %}
-
-{% if not is_submitted %}
-{% block js %}
-window.onload = function(){
-    unsubscribe_form.submit();
-}
-{% endblock js %}
-{% endif %}

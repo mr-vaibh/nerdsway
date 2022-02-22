@@ -69,20 +69,14 @@ def subscribe(request):
             subscriber = Subscriber(email=email)
             subscriber.save()
 
-        return render(request, 'home/subscribe.html', {'email': email})
-    return redirect(reverse_lazy('home:index'))
+        return render(request, 'home/subscribe.html', {'email': email, 'is_submitted': True})
+    return render(request, 'home/subscribe.html')
 
 
 def unsubscribe(request):
-    if request.method == 'GET':
-        email = request.GET.get('subscribe_email')
-        
-        return render(request, 'home/unsubscribe.html', {'email': email})
-
-    elif request.method == 'POST':
-        email = request.POST.get('subscribe_email')
+    if request.method == 'POST':
+        email = request.POST.get('unsubscribe_email')
         Subscriber.objects.filter(email=email).delete()
 
         return render(request, 'home/unsubscribe.html', {'email': email, 'is_submitted': True})
-
-    return redirect(reverse_lazy('home:index'))
+    return render(request, 'home/unsubscribe.html')

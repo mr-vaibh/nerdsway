@@ -1,8 +1,13 @@
 {% extends 'home/base.html' %}
 
-{% block title %}Thank You | NerdsWay{% endblock title %}
+{% block title %}{% if is_submitted %} Thank You {% else %} Subscribe to our Newsletter {% endif %} | NerdsWay{% endblock title %}
 
 {% block css %}
+form {
+    margin:auto;
+    width: 70%;
+    text-align:center;
+}
 #post-script {
     font-size: 1.2em;
 }
@@ -11,14 +16,31 @@
 {% block body %}
 
 <section id="content-wrap" style="padding: 0 7em;">
+    {% if is_submitted %}
+    
     <h1>Thanks for subscribing to our newsletter 💌</h1>
     <h3>You'll recieve regular quality content according to your taste seamlessly on <a href="mailto:{{ email }}">{{ email }}</a></h3>
-
+    
     <br>
-
+    
     <p id="post-script">PS: You can <a href="#">tune your recommendation</a> here</p>
-
+    
     <a href="{% url 'home:index' %}" class="button button-primary">Back to home</a>
+    
+    {% else %}
+    
+    <form method="POST" action="{% url 'home:subscribe' %}">
+        {% csrf_token %}
+        <h1>Get regular quality content 📃</h1>
+        
+        <p style="font-size:1.15em;">Subscribe to our mailing list to receive updates from the blog</p>
+        <input type="email" name="subscribe_email" placeholder="your@email.plz" style="width: 100%" autocomplete="off">
+        <button type="submit" class="button button-primary full-width">SUBSCRIBE</button>
+        
+        <p style="font-style:italics;margin:0;">PS: We promise not to spam 🤫</p>
+    </form>
+    
+    {% endif %}
 </section>
 
 {% endblock body %}
