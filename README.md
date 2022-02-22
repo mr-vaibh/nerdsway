@@ -17,7 +17,6 @@
 
 
 ## TODOs
- - edit post feature
  - add tag search dropdown
  - add pills css to tags
  - RSS feed for every user
