@@ -4,7 +4,9 @@
 {% block title %}Write a Blog | NerdsWay{% endblock title %}
 
 {% block head %}
-{{ form.media }}
+{% comment %} {{ form.media }} {% endcomment %}
+<script src="/static/django_tinymce/init_tinymce.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/0kuyakq1c4gvk3f0dvr88cyg9lydia7r0et1z5c6owxz1ac9/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 {% endblock head %}
 
 {% block css %}
