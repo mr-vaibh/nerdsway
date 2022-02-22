@@ -1,0 +1,24 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Thank You | NerdsWay{% endblock title %}
+
+{% block css %}
+#post-script {
+    font-size: 1.2em;
+}
+{% endblock css %}
+
+{% block body %}
+
+<section id="content-wrap" style="padding: 0 7em;">
+    <h1>Thanks for subscribing to our newsletter 💌</h1>
+    <h3>You'll recieve regular quality content according to your taste seamlessly on <a href="mailto:{{ email }}">{{ email }}</a></h3>
+
+    <br>
+
+    <p id="post-script">PS: You can <a href="#">tune your recommendation</a> here</p>
+
+    <a href="{% url 'home:index' %}" class="button button-primary">Back to home</a>
+</section>
+
+{% endblock body %}

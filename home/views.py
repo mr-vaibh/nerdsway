@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
+from django.urls import reverse_lazy
 
-from home.models import Faq
+from home.models import Faq, Subscriber
 from blog.models import Blog
 
 # Create your views here.
@@ -11,6 +12,9 @@ class BlogListView(ListView):
     template_name = 'home/index.html'
     context_object_name = 'blogs'
     paginate_by = 10
+
+    success_url = reverse_lazy('home:thank_you')
+    success_message = 'Thanks for subscribing our newletter, stay tuned!'
 
     def get_queryset(self):
         # Call the base implementation first to get a context
@@ -55,3 +59,30 @@ class FaqListView(ListView):
     template_name = 'home/faq.html'
     context_object_name = 'faqs'
     paginate_by = 7
+
+
+def subscribe(request):
+    if request.method == 'POST':
+        email = request.POST.get('subscribe_email')
+        
+        if not Subscriber.objects.filter(email=email).exists():
+            subscriber = Subscriber(email=email)
+            subscriber.save()
+
+        return render(request, 'home/subscribe.html', {'email': email})
+    return redirect(reverse_lazy('home:index'))
+
+
+def unsubscribe(request):
+    if request.method == 'GET':
+        email = request.GET.get('subscribe_email')
+        
+        return render(request, 'home/unsubscribe.html', {'email': email})
+
+    elif request.method == 'POST':
+        email = request.POST.get('subscribe_email')
+        Subscriber.objects.filter(email=email).delete()
+
+        return render(request, 'home/unsubscribe.html', {'email': email, 'is_submitted': True})
+
+    return redirect(reverse_lazy('home:index'))

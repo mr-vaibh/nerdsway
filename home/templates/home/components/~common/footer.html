@@ -42,18 +42,17 @@
         <p>Keep yourself updated. Subscribe to our newsletter.</p>
 
         <div class="subscribe-form">
-          <form id="mc-form" class="group" novalidate="true">
-            <input
+          <form method="POST" id="mc-form" class="group" novalidate="true">
+            {% comment %} <input
               type="email"
-              value=""
-              name="dEmail"
+              name="subscribe_email"
               class="email"
               id="mc-email"
               placeholder="Type &amp; press enter"
               required=""
-            />
+            /> {% endcomment %}
 
-            <input type="submit" name="subscribe" />
+            <button type="submit" class="button button-primary full-width" name="subscribe" onclick="modal.style.display = 'block';" >CLICK HERE</button>
 
             <label for="mc-email" class="subscribe-message"></label>
           </form>

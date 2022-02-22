@@ -89,7 +89,10 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
 
             mailing_list = [email for email in Subscriber.objects.values_list('email', flat=True)]
 
-            html_content = render_to_string('account/email_template.html', {'title': form.instance.title, 'content': unescape(form.instance.body)})
+            html_content = render_to_string('account/email_template.html', {
+                'title': form.instance.title,
+                'content': unescape(form.instance.body)
+            })
             text_content = strip_tags(html_content)
 
             email = EmailMultiAlternatives(
@@ -112,9 +115,3 @@ class NWBView(ListView):
         blogs = super(NWBView, self).get_queryset()
         blogs = blogs.filter(tags__name='nwb').order_by('-date')
         return blogs
-
-
-def blog_creation_success(request):
-    return render(request, 'blog/submit-success.html')
-def blog(request):
-    return render(request, 'blog/blog.html')

@@ -1,0 +1,33 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Thank You | NerdsWay{% endblock title %}
+
+{% block css %}
+#post-script {
+    font-size: 1.2em;
+}
+{% endblock css %}
+
+{% block body %}
+
+<section id="content-wrap" style="padding: 0 7em;">
+    <h1>Unsubscribed successfully, sad to see you go away 😢</h1>
+    <h3>You'll no longer recieve regular quality content on <a href="mailto:{{ email }}">{{ email }}</a></h3>
+
+    <a href="{% url 'home:index' %}" class="button button-primary">Back to home</a>
+
+    <form method="POST" id="unsubscribe_form">
+        {% csrf_token %}
+        <input type="text" value="{{ email }}" name="subscribe_email" hidden />
+    </form>
+</section>
+
+{% endblock body %}
+
+{% if not is_submitted %}
+{% block js %}
+window.onload = function(){
+    unsubscribe_form.submit();
+}
+{% endblock js %}
+{% endif %}

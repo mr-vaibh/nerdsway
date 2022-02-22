@@ -67,6 +67,10 @@ header .logo span {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+#subscribe_link {
+  cursor: pointer;
+}
+
 /* Modal Content */
 .modal-content {
   background-color: #fefefe;

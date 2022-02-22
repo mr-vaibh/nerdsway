@@ -1,10 +1,12 @@
-from datetime import date
 from django.db import models
+
+from django.utils.crypto import get_random_string
 
 # Create your models here.
 
 class Subscriber(models.Model):
-    email = models.EmailField(max_length=100, blank=False)
+    email = models.EmailField(default='', max_length=100, blank=False)
+    token = models.CharField(max_length=50, default=get_random_string(length=16), blank=False)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
