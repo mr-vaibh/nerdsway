@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from hitcount.models import HitCount, HitCountMixin
 
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 from tinymce.models import HTMLField
 
 from django.template.defaultfilters import slugify
@@ -100,6 +103,31 @@ class Blog(models.Model, HitCountMixin):
     class Meta:
         ordering = ['-date']
 
+@receiver(post_save, sender=Blog)
+def send_newsletter(sender, instance, created, **kwargs):
+    if created:
+        from django.core.mail import EmailMultiAlternatives
+        from django.template.loader import render_to_string
+        from html import unescape
+        from django.utils.html import strip_tags
+        from home.models import Subscriber
+
+        mailing_list = [email for email in Subscriber.objects.values_list('email', flat=True)]
+
+        html_content = render_to_string('account/email_template.html', {
+            'title': instance.title,
+            'content': unescape(instance.body),
+        })
+        text_content = strip_tags(html_content)
+
+        email = EmailMultiAlternatives(
+            instance.title,
+            text_content,
+            '',
+            mailing_list,
+        )
+        email.attach_alternative(html_content, "text/html")
+        email.send()
 
 class Comment(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
