@@ -20,12 +20,19 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# For sitemap
+from django.contrib.sitemaps.views import sitemap
+from .sitemap import StaticViewSitemap, BlogSitemap
+
+sitemaps = {'static': StaticViewSitemap, 'blog': BlogSitemap}
+
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_panel'),
     path('', include('home.urls', namespace='home')),
     path('', include('blog.urls', namespace='blog')),
     path('account/', include('account.urls', namespace='account')),
     path('tinymce/', include('tinymce.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

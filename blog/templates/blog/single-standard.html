@@ -4,7 +4,7 @@
 {% load account_tags %}
 
 {% block meta %}
-{% include 'home/components/~common/meta.html' with meta_title=blog.title meta_desc=blog.body|striptags|truncatechars:150 %}
+{% include 'home/components/~common/meta.html' with meta_title=blog.title meta_desc=blog.body|striptags|truncatechars:150 meta_image=blog.thumb %}
 {% endblock meta %}
 
 {% block title %}
@@ -15,124 +15,135 @@
 #content-wrap .entry-title, #content-wrap .page-title {
 	font-size: 2.4em;
 }
+textarea {
+	min-height: 12rem;
+}
+.commentlist li .comment-info a {
+	color: #000000;
+}
+.commentlist li .comment-text {
+	margin: 0;
+}
 {% endblock css %}
 
 {% block body %}
-   <!-- content
-   ================================================== -->
-   <section id="content-wrap" class="blog-single">
-   	<div class="row">
-   		<div class="col-twelve">
+	<!-- content
+	================================================== -->
+	<section id="content-wrap" class="blog-single">
+		<div class="row">
+			<div class="col-twelve">
 
-   			<article class="format-standard">  
+				<article class="format-standard">  
 				
-				{% if blog.thumb %}
-				<div class="content-media">
-					<div class="post-thumb">
-						<img src="{{blog.thumb.url}}" alt="{{blog.thumb_alt}}" style="max-height: 20em;">
+					{% if blog.thumb %}
+					<div class="content-media">
+						<div class="post-thumb">
+							<img src="{{blog.thumb.url}}" alt="{{blog.thumb_alt}}" style="max-height: 20em;">
+						</div>
 					</div>
-				</div>
-				{% endif %}
+					{% endif %}
 
-				<div class="primary-content">
+					<div class="primary-content">
 
-					<h1 class="page-title">{{blog.title}}</h1>
+						<h1 class="page-title">{{blog.title}}</h1>
 
-					<ul class="entry-meta">
-						{% user_name blog.author href=True %}
-						- <li class="date">{{blog.get_datetime |date:"F j, Y, g:i a"}}</li>
-						
-						<br>
-						
-						<span style="color: #000000;">
-							{% get_hit_count for blog as views %}
-							<i class="fa-solid fa-eye"></i> {{ views |intcomma }} view{{ views |pluralize }}
-							&nbsp;&nbsp;
-							<i class="fa-solid fa-clock"></i> {{ blog.get_read_time }} mins read
-							{% if blog.author == request.user %}
-							&nbsp;&nbsp;
-							<span onclick="window.location='{% url 'blog:edit' blog_id=blog.id %}';"><i class="fa-solid fa-pen-to-square"></i> Edit</span>
-							&nbsp;&nbsp;
-							<span id="confirm_link"><i class="fa-solid fa-trash"></i> Delete</span>
-							{% endif %}
+						<ul class="entry-meta">
+							{% user_name blog.author href=True %}
+							- <li class="date">{{blog.get_datetime |date:"F j, Y, g:i a"}}</li>
+							
+							<br>
+							
+							<span style="color: #000000;">
+								{% get_hit_count for blog as views %}
+								<i class="fa-solid fa-eye"></i> {{ views |intcomma }} view{{ views |pluralize }}
+								&nbsp;&nbsp;
+								<i class="fa-solid fa-clock"></i> {{ blog.get_read_time }} mins read
+								{% if blog.author == request.user %}
+								&nbsp;&nbsp;
+								<span onclick="window.location='{% url 'blog:edit' blog_id=blog.id %}';"><i class="fa-solid fa-pen-to-square"></i> Edit</span>
+								&nbsp;&nbsp;
+								<span id="confirm_link"><i class="fa-solid fa-trash"></i> Delete</span>
+								{% endif %}
 
-							<!-- DELETE MODAL HTML -->
-							<div id="confirm_modal" class="modal">
-								<!-- Modal content -->
-								<div class="modal-content">
-								<span class="close" id="confirm_close">&times;</span>
-								<form method="POST" action="{% url 'blog:delete' blog_id=blog.id %}" style="text-align:center;">
-									{% csrf_token %}
-									<h1>Are you sure?</h1>
-									
-									<p style="font-size:1.15em;">This step is irreversible, do you really wanna continue?</p>
-									<button type="submit" class="button button-primary full-width">CONFIRM DELETE</button>
-								</form>
+								<!-- DELETE MODAL HTML -->
+								<div id="confirm_modal" class="modal">
+									<!-- Modal content -->
+									<div class="modal-content">
+										<span class="close" id="confirm_close">&times;</span>
+										<form method="POST" action="{% url 'blog:delete' blog_id=blog.id %}" style="text-align:center;">
+											{% csrf_token %}
+											<h1>Are you sure?</h1>
+											
+											<p style="font-size:1.15em;">This step is irreversible, do you really wanna continue?</p>
+											<button type="submit" class="button button-primary full-width">CONFIRM DELETE</button>
+										</form>
+									</div>
 								</div>
-							</div>
-						</span>
+							</span>
 
-					</ul>
+						</ul>
 
-					<div class="entry-excerpt">
-						{% if blog.show_excerpt_in_blog %}
-						<p class="lead">{{blog.excerpt}}</p>
+						<div class="entry-excerpt">
+							{% if blog.show_excerpt_in_blog %}
+							<p class="lead">{{blog.excerpt}}</p>
+							{% endif %}
+						</div>
+
+						{{blog.body | safe}}
+
+						{% if blog.tags.all %}
+						<p class="tags">
+							<span>Tagged in :</span>
+							{% for tag in blog.tags.all %}
+							<a href="{% url 'home:tag_page' tag=tag %}">{{tag}}</a>
+							{% endfor %}
+						</p>
 						{% endif %}
-					</div>
 
-					{{blog.body | safe}}
+						{% with blog.author.userprofile as author %}
+							<div class="author-profile">
+								{% profile_pic blog.author %}
 
-					<p class="tags">
-						<span>Tagged in :</span>
-						{% for tag in blog.tags.all %}
-						<a href="{% url 'home:tag_page' tag=tag %}">{{tag}}</a>
-						{% endfor %}
-					</p>
+								<div class="about">
+									<h4>{% user_name blog.author href=True %}</h4>
 
-					{% with blog.author.userprofile as author %}
-						<div class="author-profile">
-							{% profile_pic blog.author %}
+									<p>{{author.bio}}</p>
 
-							<div class="about">
-								<h4>{% user_name blog.author href=True %}</h4>
+									<ul class="author-social">
+										{% if author.facebook %}
+										<li><a target="_blank" href="https://facebook.com/{{author.facebook}}">Facebook</a></li>
+										{% endif %}
+										{% if author.twitter %}
+										<li><a target="_blank" href="https://twitter.com/{{author.twitter}}">Twitter</a></li>
+										{% endif %}
+										{% if author.instagram %}
+										<li><a target="_blank" href="https://instagram.com/{{author.instagram}}">Instagram</i></a></li>					        	
+										{% endif %}
+										{% if author.website %}
+										<li><a target="_blank" href="{{author.website}}">Website</a></li>
+										{% endif %}
+									</ul>
+								</div>
+							</div> <!-- end author-profile -->						
+						{% endwith %}
 
-								<p>{{author.bio}}</p>
+					</div> <!-- end entry-primary -->
 
-								<ul class="author-social">
-									{% if author.facebook %}
-									<li><a target="_blank" href="https://facebook.com/{{author.facebook}}">Facebook</a></li>
-									{% endif %}
-									{% if author.twitter %}
-									<li><a target="_blank" href="https://twitter.com/{{author.twitter}}">Twitter</a></li>
-									{% endif %}
-									{% if author.instagram %}
-									<li><a target="_blank" href="https://instagram.com/{{author.instagram}}">Instagram</i></a></li>					        	
-									{% endif %}
-									{% if author.website %}
-									<li><a target="_blank" href="{{author.website}}">Website</a></li>
-									{% endif %}
-								</ul>
-							</div>
-						</div> <!-- end author-profile -->						
-					{% endwith %}
+				</article>
 
-				</div> <!-- end entry-primary -->
-
-			</article>
-	
 			<br><br>
 
-		</div> <!-- end col-twelve -->
-   	</div> <!-- end row -->
+			</div> <!-- end col-twelve -->
+		</div> <!-- end row -->
 
 		<div class="comments-wrap">
 			<div id="comments" class="row">
 				<div class="col-full">
 
-               <h3>{{ comments|length }} Comment{{ comments|length|pluralize }} </h3>
+					<h3>{{ comments|length }} Comment{{ comments|length|pluralize }} </h3>
 
-               <!-- commentlist -->
-               	<ol class="commentlist">
+					<!-- commentlist -->
+					<ol class="commentlist">
 					{% for comment in comments %}
 					<li class="depth-1">
 
@@ -147,7 +158,7 @@
 						<div class="comment-content">
 
 							<div class="comment-info">
-								<cite>{{ comment.name }}</cite>
+								<cite>{% user_name comment.user href=True %}</cite>
 
 								<div class="comment-meta">
 								<time class="comment-time" datetime="2014-07-12T23:05">{{ comment.datetime |date:"F j, Y @ g:i a"}} </time>
@@ -163,44 +174,36 @@
 					</li>
 					{% endfor %}
 
-               	</ol> <!-- Commentlist End -->					
+					</ol> <!-- Commentlist End -->
 
-               <!-- respond -->
-               <div class="respond">
+					<!-- respond -->
+					<div class="respond">
+						{% if request.user.is_authenticated %}
+						<h3>Leave a Comment</h3>
+						
+						<form name="contactForm" id="contactForm" method="post" action="{% url 'blog:comment' blog_id=blog.id %}">
+							{% csrf_token %}
+							<fieldset>
+								<div class="message form-field">
+									<textarea name="comment_body" id="cMessage" class="full-width" placeholder="Your Message" required></textarea>
+								</div>
+								
+								<button type="submit" class="submit button-primary">Submit</button>
+							</fieldset>
+						</form> <!-- Form End -->
+						{% else %}
+						<h3>You're be authorised leave a comment</h3>
+						
+						<button type="button" class="button-secondary" onclick="window.location=`{% url 'account:signin' %}`;">Login</button>
+						<button type="button" class="button-primary" onclick="window.location=`{% url 'account:signup' %}`;">Signup</button>
+						{% endif %}
 
-               	<h3>Leave a Comment</h3>
-
-                  <form name="contactForm" id="contactForm" method="post" action="">
-  					   <fieldset>
-
-                     <div class="form-field">
-  						      <input name="cName" type="text" id="cName" class="full-width" placeholder="Your Name" value="">
-                     </div>
-
-                     <div class="form-field">
-  						      <input name="cEmail" type="text" id="cEmail" class="full-width" placeholder="Your Email" value="">
-                     </div>
-
-                     <div class="form-field">
-  						      <input name="cWebsite" type="text" id="cWebsite" class="full-width" placeholder="Website"  value="">
-                     </div>
-
-                     <div class="message form-field">
-                        <textarea name="cMessage" id="cMessage" class="full-width" placeholder="Your Message" ></textarea>
-                     </div>
-
-                     <button type="submit" class="submit button-primary">Submit</button>
-
-  					   </fieldset>
-  				      </form> <!-- Form End -->
-
-               </div> <!-- Respond End -->
-
-         	</div> <!-- end col-full -->
-         </div> <!-- end row comments -->
+					</div> <!-- Respond End -->
+				</div> <!-- end col-full -->
+			</div> <!-- end row comments -->
 		</div> <!-- end comments-wrap -->
 
-   </section> <!-- end content -->
+	 </section> <!-- end content -->
 
 {% endblock body %}
 
@@ -211,14 +214,14 @@ const confirm_btn = document.getElementById("confirm_link");
 const confirm_close = document.getElementById("confirm_close");
 
 confirm_btn.onclick = function() {
-    confirm_modal.style.display = "block";
+	confirm_modal.style.display = "block";
 }
 confirm_close.onclick = function() {
-    confirm_modal.style.display = "none";
+	confirm_modal.style.display = "none";
 }
 window.onclick = function(event) {
-    if (event.target == confirm_modal) {
-        confirm_modal.style.display = "none";
-    }
+	if (event.target == confirm_modal) {
+		confirm_modal.style.display = "none";
+	}
 }
 {% endblock js %}

@@ -4,11 +4,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 from tinymce.widgets import TinyMCE
-from .models import Blog
+from .models import Blog, Comment
 
 class BlogForm(ModelForm):
     body = CharField(widget=TinyMCE(), label='Write your blog, (fullscreen mode available)')
-    # tags = CharField(label='Tags (comma)')
 
     class Meta:
         model = Blog

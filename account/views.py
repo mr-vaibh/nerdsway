@@ -1,9 +1,10 @@
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import View
 from django.views.generic.edit import UpdateView
 from django.contrib.auth import logout
+from django.contrib.syndication.views import Feed
 
 from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
@@ -55,6 +56,29 @@ class UserProfileEditView(UpdateView):
                             current_app='account',
                             kwargs={'user': user})
 
+
+class UserRSSBlogFeedView(Feed):
+    title = "Nerdsway"
+    link = "/blog/"
+    description = "RSS feed of NerdsWay"
+
+    def get_object(self, request, user):
+        return User.objects.get(username=user)
+ 
+    def items(self, user):
+        return Blog.objects.filter(author=user)
+ 
+    def item_title(self, item):
+        return item.title
+       
+    def item_description(self, item):
+        from html import unescape
+        from django.utils.html import strip_tags
+        
+        return unescape(strip_tags(item.body))
+ 
+    def item_link(self, item):
+       return reverse('blog:detail', args=[item.slug])
 
 class LogoutView(View):
     def get(self, request):

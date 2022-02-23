@@ -17,9 +17,6 @@
 
 
 ## TODOs
- - add tag search dropdown
- - add pills css to tags
- - RSS feed for every user
  - verify email subscription
  - unsubscribe (only via mail)
 
@@ -34,6 +31,7 @@
  - move email functionality outside of view, maybe in models/signals
  - send email on signup
  - send email on login
+ - crop image while uploading
  - create custom contact model and functionality
  - reduce (or if necessary then increase) font size, spacing, in pages like search and others
  - custom 404 page

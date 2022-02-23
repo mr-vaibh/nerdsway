@@ -1,0 +1,43 @@
+.alert .danger {
+    color: red
+}
+input, textarea {
+    width: 100%;
+}
+form [type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
+
+#id_body {
+    background-color: unset;
+}
+
+#tagSuggestions {
+    background-color: #fafafa;
+    border: 1px solid #000000;
+    position: absolute;
+    top: 4.6em;
+    min-width: 12em;
+    display: none;
+    padding: 0.5em 1em;
+}
+#tagSuggestions ul {
+    margin: 0;
+}
+#tagSuggestions span {
+    display: block;
+    border-bottom: 1px solid #dadada;
+    cursor: pointer;
+}
+
+.pill {
+    font-size: 18px;
+    border-radius: 7px;
+    background-color: #dadada;
+    margin: 0 5px;
+    padding: 5px;
+}
+.pill .remove {
+    cursor: pointer;
+}

@@ -29,6 +29,7 @@
         <h4>Social</h4>
 
         <ul>
+          <li><a href="{% url 'home:rss_feed' %}" target="_blank">RSS Feed</a></li>
           <li><a href="https://twitter.com/MrVaiBH0" target="_blank">Twitter</a></li>
           <li><a href="https://facebook.com/MrVaiBH0" target="_blank">Facebook</a></li>
           <li><a href="https://instagram.com/mrvaibh0/" target="_blank">Instagram</a></li>
@@ -52,7 +53,7 @@
               required=""
             /> {% endcomment %}
 
-            <button type="submit" class="button button-primary full-width" name="subscribe" onclick="modal.style.display = 'block';" >CLICK HERE</button>
+            <button type="submit" class="button button-primary full-width" name="subscribe" onclick="subscribe_modal.style.display = 'block';" >Get in touch</button>
 
             <label for="mc-email" class="subscribe-message"></label>
           </form>

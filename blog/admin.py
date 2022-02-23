@@ -10,7 +10,7 @@ class CommentAdmin(admin.TabularInline):
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'get_tags', 'date', 'time', 'updated_at', 'views')
-    list_filter = ('tags', 'date', 'updated_at')
+    list_filter = ('date', 'updated_at', 'tags',)
     search_fields = ('title', 'body', 'excerpt',)
     inlines = [CommentAdmin]
 
@@ -22,7 +22,7 @@ class BlogAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'blog', 'datetime')
+    list_display = ('body', 'blog', 'datetime')
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

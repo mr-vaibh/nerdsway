@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.generic import ListView
-from django.urls import reverse_lazy
+from django.contrib.syndication.views import Feed
+from django.urls import reverse_lazy, reverse
 
-from home.models import Faq, Subscriber
-from blog.models import Blog
+from home.models import Faq, Subscriber, SpecialBlog
+from blog.models import Blog, Tag
 
 # Create your views here.
 
@@ -27,7 +29,8 @@ class BlogListView(ListView):
         # Call the base implementation first to get a context
         context = super(BlogListView, self).get_context_data(**kwargs)
         # Add extras
-        context['featured_blogs'] = Blog.objects.filter(tags__name__in=['featured'])[:3]
+        slugs = [blog.slug for blog in SpecialBlog.objects.filter(speciality='featured')]
+        context['featured_blogs'] = Blog.objects.filter(slug__in=slugs)
 
         return context
 
@@ -54,12 +57,40 @@ class TagListView(ListView):
         return context
 
 
+class RSSBlogFeedView(Feed):
+    title = "Nerdsway"
+    link = "/blog/"
+    description = "RSS feed of NerdsWay"
+ 
+    def items(self, user):
+        return Blog.objects.all()
+ 
+    def item_title(self, item):
+        return item.title
+       
+    def item_description(self, item):
+        from html import unescape
+        from django.utils.html import strip_tags
+        
+        return unescape(strip_tags(item.body))
+ 
+    def item_link(self, item):
+       return reverse('blog:detail', args=[item.slug])
+
 class FaqListView(ListView):
     model = Faq
     template_name = 'home/faq.html'
     context_object_name = 'faqs'
     paginate_by = 7
 
+def tag_search(request, query):
+    if len(query) > 2:
+        data = {
+            'suggestions': [tag.name for tag in Tag.objects.filter(name__icontains=query)]
+        }
+    else:
+        data = {'suggestions': []}
+    return JsonResponse(data)
 
 def subscribe(request):
     if request.method == 'POST':

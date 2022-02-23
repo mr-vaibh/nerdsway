@@ -1,4 +1,4 @@
-from django.forms import DateInput, ModelForm, NumberInput
+from django.forms import ModelForm, DateInput, NumberInput
 
 from .models import UserProfile
 
