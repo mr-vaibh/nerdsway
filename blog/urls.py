@@ -12,5 +12,6 @@ urlpatterns = [
     path('write-new-blog/', views.BlogCreateView.as_view(), name='submit'),
     path('submit/success/', TemplateView.as_view(template_name='blog/submit-success.html'), name='submit-success'),
     path('search/<str:query>/', views.SearchBlogsListView.as_view(), name='search'),
+    path('comment/<int:blog_id>/', views.comment, name='comment'),
     path('nwb/', views.NWBView.as_view(), name='nwb'),
 ]

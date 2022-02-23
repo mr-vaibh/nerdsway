@@ -35,7 +35,7 @@ class BlogQuerySet(models.QuerySet):
         queryset = self
 
         search_query = kwargs.get('query', None)
-        queryset = (queryset.filter(title__icontains=search_query) | queryset.filter(body__icontains=search_query))
+        queryset = (queryset.filter(title__icontains=search_query) | queryset.filter(body__icontains=search_query) | queryset.filter(tags__name__in=[search_query]))
 
         sort_by = kwargs.get('sort_by', '')
         date_from = kwargs.get('date_from', '')
@@ -88,16 +88,16 @@ class Blog(models.Model, HitCountMixin):
         return round(total_words / 200)
 
     def get_absolute_url(self):
-        kwargs = {
-            'pk': self.id,
-            'slug': self.slug
-        }
-        return reverse('blog-detail', kwargs=kwargs)
+        return reverse('blog:detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.title + '--' +
                                 get_random_string(length=7))
+        for field_name in ['title', 'excerpt']:
+            val = getattr(self, field_name, False)
+            if val:
+                setattr(self, field_name, val.capitalize())
         super(Blog, self).save(*args, **kwargs)
 
     class Meta:
@@ -130,15 +130,13 @@ def send_newsletter(sender, instance, created, **kwargs):
         email.send()
 
 class Comment(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, blank=False)
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='blog')
-    name = models.CharField(max_length=50)
-    email = models.EmailField()
     body = models.TextField()
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.body[:50]
 
     class Meta:
         ordering = ['-datetime']

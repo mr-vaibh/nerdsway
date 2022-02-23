@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django.contrib.humanize',
+    'django.contrib.sitemaps',
 
     # Third-party apps
     'hitcount',
@@ -150,13 +151,6 @@ TINYMCE_DEFAULT_CONFIG = {
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'shuklavaibhav337@gmail.com'
-EMAIL_HOST_PASSWORD = 'vaibhav1928'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

@@ -6,15 +6,27 @@
 
 <meta property="og:url" content="{{request.build_absolute_uri}}">
 <meta property="og:title" content="{{meta_title}}">
-<meta property="og:image" content="http://{{request.get_host}} {% static 'home/images/favicon.png' %}">
+{% if meta_image %}
+<meta property="og:image" content="http://{{request.get_host}}{{meta_image.url}}">
+{% else %}
+<meta property="og:image" content="http://{{request.get_host}}{% static 'home/images/favicon.png' %}">
+{% endif %}
 <meta property="og:site_name" content="NerdsWay">
 <meta property="og:description" content="{{meta_desc}}">
 
 <meta itemprop="name" content="{{meta_title}}">
 <meta itemprop="description" content="{{meta_desc}}">
+{% if meta_image %}
+<meta itemprop="image" content="http://{{request.get_host}}{{meta_image.url}}">
+{% else %}
 <meta itemprop="image" content="http://{{request.get_host}}{% static 'home/images/favicon.png' %}">
+{% endif %}
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="{{meta_title}}">
 <meta name="twitter:description" content="{{meta_desc}}">
+{% if meta_image %}
+<meta name="twitter:image" content="http://{{request.get_host}}{{meta_image.url}}">
+{% else %}
 <meta name="twitter:image" content="http://{{request.get_host}}{% static 'home/images/favicon.png' %}">
+{% endif %}

@@ -53,7 +53,7 @@ select:focus, textarea:focus, input:focus {
 <section id="content-wrap">
     <div class="row">
 
-    <form action="{% url 'account:user_profile_edit' %}" method="post">
+    <form action="{% url 'account:user_profile_edit' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         
         {% for element in form %}

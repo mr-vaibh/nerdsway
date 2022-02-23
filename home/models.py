@@ -17,6 +17,13 @@ class Subscriber(models.Model):
             self.token = get_random_string(length=16)
         super(Subscriber, self).save(*args, **kwargs)
 
+class SpecialBlog(models.Model):
+    slug = models.CharField(max_length=200, blank=False, default='')
+    speciality = models.CharField(choices=(('featured', 'Featured'), ('nwb', 'NWB')), max_length=50, blank=False)
+
+    def __str__(self):
+        return self.slug
+
 class Faq(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField()

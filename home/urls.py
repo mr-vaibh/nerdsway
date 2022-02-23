@@ -8,6 +8,8 @@ app_name = 'home'
 urlpatterns = [
     path('', views.BlogListView.as_view(), name='index'),
     path('tag/<str:tag>/', views.TagListView.as_view(), name='tag_page'),
+    path('tag/search/<str:query>/', views.tag_search, name='tag_search'),
+    path('rss/', views.RSSBlogFeedView(), name='rss_feed'),
     path('subscribe/', views.subscribe, name='subscribe'),
     path('unsubscribe/', views.unsubscribe, name='unsubscribe'),
     path('about/', TemplateView.as_view(template_name='home/about.html'), name='about'),

@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from .forms import BlogForm
 
+from home.models import SpecialBlog
 from .models import Blog, Comment, Tag
 
 
@@ -66,44 +67,15 @@ class BlogCreateView(SuccessMessageMixin, CreateView):
             form.instance.save()
 
             # Adding Tags
-            tags = self.request.POST.get('tags', []).split(',')
-
-            if 'featured' in tags:
-                tags.remove('featured')
-            if 'nwb' in tags:
-                tags.remove('nwb')
+            tags_string = self.request.POST.get('tags', '')
+            tags = [x.strip() for x in tags_string.split(',') if x.strip()]
 
             for tag in tags:
-                if tag.strip():
-                    try:
-                        tag_obj = Tag.objects.get(name=tag.strip())
-                        form.instance.tags.add(tag_obj)
-                    except Tag.DoesNotExist:
-                        form.instance.tags.create(name=tag.strip())
-            
-            # Mailing feature
-            # from django.core.mail import EmailMultiAlternatives
-            # from django.template.loader import render_to_string
-            # from html import unescape
-            # from django.utils.html import strip_tags
-            # from home.models import Subscriber
-
-            # mailing_list = [email for email in Subscriber.objects.values_list('email', flat=True)]
-
-            # html_content = render_to_string('account/email_template.html', {
-            #     'title': form.instance.title,
-            #     'content': unescape(form.instance.body)
-            # })
-            # text_content = strip_tags(html_content)
-
-            # email = EmailMultiAlternatives(
-            #     form.instance.title,
-            #     text_content,
-            #     '',
-            #     mailing_list,
-            # )
-            # email.attach_alternative(html_content, "text/html")
-            # email.send()
+                try:
+                    tag_obj = Tag.objects.get(name=tag)
+                    form.instance.tags.add(tag_obj)
+                except Tag.DoesNotExist:
+                    form.instance.tags.create(name=tag)
             
             return self.form_valid(form)
 
@@ -118,15 +90,15 @@ class BlogEditView(UpdateView):
     def post(self, request, *args, **kwargs):
         # Updating Tags (first clearing all tags then adding them each)
         self.get_object().tags.clear()
-        tags = self.request.POST.get('tags', []).split(',')
+        tags_string = self.request.POST.get('tags', '')
+        tags = [x.strip() for x in tags_string.split(',') if x.strip()]
 
         for tag in tags:
-            if tag.strip():
-                try:
-                    tag_obj = Tag.objects.get(name=tag.strip())
-                    self.get_object().tags.add(tag_obj)
-                except Tag.DoesNotExist:
-                    self.get_object().tags.create(name=tag.strip())
+            try:
+                tag_obj = Tag.objects.get(name=tag)
+                self.get_object().tags.add(tag_obj)
+            except Tag.DoesNotExist:
+                self.get_object().tags.create(name=tag)
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
@@ -140,9 +112,8 @@ class NWBView(ListView):
     context_object_name = 'blogs'
 
     def get_queryset(self):
-        blogs = super(NWBView, self).get_queryset()
-        blogs = blogs.filter(tags__name='nwb').order_by('-date')
-        return blogs
+        slugs = [blog.slug for blog in SpecialBlog.objects.filter(speciality='nwb')]
+        return Blog.objects.filter(slug__in=slugs)
 
 def delete_blog(request, blog_id):
     if not request.user.is_authenticated:
@@ -153,3 +124,12 @@ def delete_blog(request, blog_id):
         return redirect(reverse_lazy('account:user_profile', kwargs={'user': request.user}) + '?tab=blogs')
     
     return HttpResponseNotAllowed('Method not allowed')
+
+def comment(request, blog_id):
+    blog_object = Blog.objects.get(id=blog_id)
+
+    if request.method == 'POST' and request.user.is_authenticated:
+        body = request.POST.get('comment_body', '')    
+        Comment.objects.create(user=request.user, blog=blog_object, body=body)
+
+    return redirect(reverse_lazy('blog:detail', kwargs={'slug': blog_object.slug}))
