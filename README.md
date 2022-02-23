@@ -28,7 +28,6 @@
  - Jinja Templating - https://jinja.palletsprojects.com/en/3.0.x/switching/#django
 
  Optional TODOs:
- - move email functionality outside of view, maybe in models/signals
  - send email on signup
  - send email on login
  - crop image while uploading
