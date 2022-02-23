@@ -6,11 +6,16 @@ from django.utils.crypto import get_random_string
 
 class Subscriber(models.Model):
     email = models.EmailField(default='', max_length=100, blank=False)
-    token = models.CharField(max_length=50, default=get_random_string(length=16), blank=False)
+    token = models.CharField(max_length=50, default='', blank=False)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.email
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.token = get_random_string(length=16)
+        super(Subscriber, self).save(*args, **kwargs)
 
 class Faq(models.Model):
     question = models.CharField(max_length=200)
