@@ -83,7 +83,7 @@
 				<h1>Get regular quality content 📃</h1>
 				
 				<p style="font-size:1.15em;">Subscribe to our mailing list to receive updates from the blog</p>
-				<input type="email" name="subscribe_email" placeholder="your@email.plz" style="width: 100%" autocomplete="off">
+				<input type="email" name="subscribe_email" placeholder="your@email.plz" style="width: 100%" autocomplete="off" required>
 				<button type="submit" class="button button-primary full-width">SUBSCRIBE</button>
 
 				<p style="font-style:italics;margin:0;">PS: We promise not to spam 🤫</p>
@@ -113,6 +113,25 @@
 		<script src="{% static 'home/js/plugins.js' %}"></script>
 		<script src="{% static 'home/js/main.js' %}"></script>
 		<script src="{% static 'home/js/custom.js' %}"></script>
+
+		{% if not user.is_authenticated %}
+		<script>
+			// Ask to subscribe
+			const lastModalPopup = localStorage.getItem('lastModalPopup')
+			const lastDate = new Date(lastModalPopup);
+			const today = new Date();
+
+			const diffTime = Math.abs(today - lastDate);
+			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+			if (lastModalPopup === null || diffDays > 7) {
+				setTimeout(() => {
+					subscribe_link.click()
+					localStorage.setItem('lastModalPopup', new Date())
+				}, 3000);
+			}
+		</script>
+		{% endif %}
 
 	</body>
 </html>

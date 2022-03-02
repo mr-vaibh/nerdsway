@@ -1,7 +1,7 @@
 // ====== Tags Dropdown ======
 let tagsList;
 
-function updateTagList() {
+const updateTagList = () => {
     tagsList = tagsInput.value.split(',')
                 .map(item => item.trim())
                 .filter(item => item !== '')
@@ -12,11 +12,11 @@ function updateTagList() {
     })
     addTagInput.value = ''
 }
-function addTag(tag) {
+const addTag = (tag) => {
     tagsInput.value += `${tag}, `
     updateTagList()
 }
-function removeTag(tag) {
+const removeTag = (tag) => {
     tagsInput.value = tagsInput.value.replaceAll(tag, '')
     updateTagList()
 }
@@ -26,7 +26,6 @@ updateTagList()
 
 // Suggestion Box show and hide logic
 addTagInput.addEventListener('input', (e) => {
-    console.log(e.target.value.length)
     if (e.target.value.length > 2) {
         tagSuggestions.style.display = 'block';
     } else {
@@ -42,7 +41,8 @@ document.addEventListener('click', (e) => {
 
 // Add tag Search completion logic
 addTagInput.addEventListener('input', (e) => {
-    fetch(`/tag/search/${e.target.value}/`)
+    const searched_tag = e.target.value;
+    fetch(`/tag/search/${searched_tag}/`)
         .then(response => response.json())
         .then(data => {
             tagSuggestions.children[0].innerHTML = ''
@@ -52,7 +52,7 @@ addTagInput.addEventListener('input', (e) => {
                     tagSuggestions.children[0].innerHTML += `<span onclick="addTag('${tag}');">${tag}</span>`
                 })
             } else {
-                tagSuggestions.children[0].innerHTML = `No tags found. But it will be created anyway.`
+                tagSuggestions.children[0].innerHTML = `No tags were found. <span onclick="addTag('${searched_tag}');">Create a tag <b>${searched_tag}</b></span>`
             }
         })
         .catch(error => console.error(error))
