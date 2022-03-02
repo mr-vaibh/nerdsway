@@ -17,6 +17,8 @@
 
 
 ## TODOs
+ - time spent on article
+ - article stats
  - verify email subscription
  - unsubscribe (only via mail)
 
