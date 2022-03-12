@@ -94,10 +94,6 @@ class Blog(models.Model, HitCountMixin):
         if not self.id:
             self.slug = slugify(self.title + '--' +
                                 get_random_string(length=7))
-        for field_name in ['title', 'excerpt']:
-            val = getattr(self, field_name, False)
-            if val:
-                setattr(self, field_name, val.capitalize())
         super(Blog, self).save(*args, **kwargs)
 
     class Meta:
