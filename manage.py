@@ -3,10 +3,18 @@
 import os
 import sys
 
+from pathlib import Path
+import environ
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nerdsway.settings.development')
+    os.environ.setdefault(env('DJANGO_SETTINGS_MODULE'), 'nerdsway.settings.development')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

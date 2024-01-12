@@ -2,7 +2,7 @@ from .base import *
 
 import os
 import environ
-import django_heroku
+# import django_heroku
 
 env = environ.Env(
     DEBUG=(bool, False),
@@ -64,4 +64,4 @@ EMAIL_PORT = env('EMAIL_PORT')
 
 
 # Activate Django-Heroku.
-django_heroku.settings(locals(), staticfiles=False)
+# django_heroku.settings(locals(), staticfiles=False)
