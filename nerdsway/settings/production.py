@@ -52,7 +52,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
 MEDIA_URL = '/nerdsway/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 
 # Email settings
 EMAIL_BACKEND = env('EMAIL_BACKEND')
