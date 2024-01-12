@@ -6,6 +6,7 @@ import environ
 
 env = environ.Env(
     DEBUG=(bool, False),
+    SECURE_SSL_REDIRECT=(bool, False),
     EMAIL_BACKEND=(str, 'django.core.mail.backends.smtp.EmailBackend'),
     EMAIL_HOST=(str, 'smtp.gmail.com'),
     EMAIL_USE_TLS=(bool, True),
@@ -52,7 +53,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
 MEDIA_URL = '/nerdsway/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT')
 
 # Email settings
 EMAIL_BACKEND = env('EMAIL_BACKEND')
