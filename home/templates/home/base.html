@@ -1,4 +1,5 @@
 {% load static %}
+{% load home_tags %}
 
 <!-- ================================================== HEY ================================================== -->
 <!--		
@@ -50,9 +51,9 @@
 
 		<!-- favicons
 		================================================== -->
-		<link rel="shortcut icon" href="{% static 'home/images/favicon.png' %}" type="image/x-icon" />
-		<link rel="icon" href="{% static 'home/images/favicon.png' %}" type="image/x-icon" />
-		
+		<link rel="shortcut icon" href="{% static 'home/images/'|add:brand_logo %}" type="image/x-icon" />
+		<link rel="icon" href="{% static 'home/images/'|add:brand_logo %}" type="image/x-icon" />
+
 		{% block meta %}{% endblock meta %}
 				
 		{% block head %}{% endblock head %}

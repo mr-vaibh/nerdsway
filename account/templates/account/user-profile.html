@@ -3,12 +3,12 @@
 {% load account_tags %}
 
 {% block meta %}
-{% include 'home/components/~common/meta.html' with meta_title=user.userprofile.get_full_name|add:' (@'|add:user.username|add:') | NerdsWay' meta_desc=user.userprofile.bio %}
+{% include 'home/components/~common/meta.html' with meta_title=user.userprofile.get_full_name|add:' (@'|add:user.username|add:') | {{ brand_name }}' meta_desc=user.userprofile.bio %}
 {% robots %}
 {% endblock meta %}
 
 {% block title %}
-{{user.userprofile.get_full_name}} (@{{user.username}}) | NerdsWay
+{{user.userprofile.get_full_name}} (@{{user.username}}) | {{ brand_name }}
 {% endblock title %}
 
 {% block css %}

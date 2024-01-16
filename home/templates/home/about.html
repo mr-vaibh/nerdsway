@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block meta %}
-{% include 'home/components/~common/meta.html' with meta_title='NerdsWay' meta_desc='NerdsWay is an Indian non-profit organization that publishes news, disclosures, classified media provided by sources, media critique, reportage and satirical views on current happenings around. It was founded in 2021 by Vaibhav Shukla in India under the holding company MRVAIBH Inc., started in 2019 that has been providing multi-sector benefits for the last 2 years.' %}
+{% include 'home/components/~common/meta.html' with meta_title='{{ brand_name }}' meta_desc='{{ brand_name }} is an Indian non-profit organization that publishes news, disclosures, classified media provided by sources, media critique, reportage and satirical views on current happenings around. It was founded in 2021 by Vaibhav Shukla in India under the holding company MRVAIBH Inc., started in 2019 that has been providing multi-sector benefits for the last 2 years.' %}
 {% endblock meta %}
 
-{% block title %} About Us | NerdsWay {% endblock title %}
+{% block title %} About Us | {{ brand_name }} {% endblock title %}
 
 {% block css %}
 .content-media img {
@@ -44,21 +44,21 @@
       <section>
 
         <div class="row content-media">
-          <img class="col-six tab-full" src="{% static 'home/images/favicon.png' %}" />
-          <h1 class="entry-title col-six tab-full" style="font-size: 3.3em">NERDSWAY</h1>
+          <img class="col-six tab-full" src="{% static 'home/images/'|add:brand_logo %}" />
+          <h1 class="entry-title col-six tab-full" style="font-size: 3.3em">{{ brand_name |upper }}</h1>
         </div>
 
         <div class="primary-content">
 
           <p class="drop-cap">
-            &nbsp;NerdsWay is an Indian non-profit organization
+            &nbsp;{{ brand_name }} is an Indian non-profit organization
             that publishes classified media provided by the people of the community.
             It provides media, publication, news, reportage and satirical commentary.
             It was founded in 2021 by <a href="https://en.everybodywiki.com/MrVaiBH">Vaibhav Shukla</a> in India under it's parent company <a href="https://mrvaibh.herokuapp.com">MRVAIBH Inc.</a>, started in 2019 that had provided multi-sector benefits in its first 2 years.
           </p>
 
           <p>
-            Transparent and open source, NerdsWay is a platform for the public to share their knowledge, views and opinions.
+            Transparent and open source, {{ brand_name }} is a platform for the public to share their knowledge, views and opinions.
             It publishes pertinent articles which can also be voted by regular users of the internet.
             It is different from other publications as it's 100% non-profit and does not earn money, the only vision behind NW is to provide a free platform for free voice.
           </p>
@@ -66,7 +66,7 @@
           <h1 class="entry-title add-bottom">What NT is NOT?</h1>
 
           <p>
-            NerdsWay is not a propaganda or propaganda-related website.
+            {{ brand_name }} is not a propaganda or propaganda-related website.
             It is not meant to spread extreme hate &lpar;or even love&rpar; on government, politics or any cultural belief.
           </p>
 
@@ -83,7 +83,7 @@
 
             <div class="bgrid">
               <h3>neutrality meter.</h3>
-              <p>Like no other media company, we do have a fool-proof methodology to calculate the neutrality &lpar;how unbiased&rpar; of an information. The scale is between 1 to 10 and literally anyone &lpar;who is an <abbr title="An active registered individual on NerdsWay">NTian</abbr>&rpar; can vote for it. Also, there are no chances of spam by creating multiple accounts, our system is capable of handling those situations.</p>
+              <p>Like no other media company, we do have a fool-proof methodology to calculate the neutrality &lpar;how unbiased&rpar; of an information. The scale is between 1 to 10 and literally anyone &lpar;who is an <abbr title="An active registered individual on {{ brand_name }}">NTian</abbr>&rpar; can vote for it. Also, there are no chances of spam by creating multiple accounts, our system is capable of handling those situations.</p>
             </div>
 
             <div class="bgrid">

@@ -1,6 +1,6 @@
 {% extends 'home/base.html' %}
 
-{% block title %}{% if is_submitted %} Thank You {% else %} Subscribe to our Newsletter {% endif %} | NerdsWay{% endblock title %}
+{% block title %}{% if is_submitted %} Thank You {% else %} Subscribe to our Newsletter {% endif %} | {{ brand_name }}{% endblock title %}
 
 {% block css %}
 form {

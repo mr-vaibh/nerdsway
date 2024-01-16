@@ -7,6 +7,8 @@ from django.urls import reverse_lazy, reverse
 from home.models import Faq, Subscriber, SpecialBlog
 from blog.models import Blog, Tag
 
+from config import BRAND_NAME
+
 # Create your views here.
 
 class BlogListView(ListView):
@@ -58,9 +60,9 @@ class TagListView(ListView):
 
 
 class RSSBlogFeedView(Feed):
-    title = "Nerdsway"
+    title = BRAND_NAME
     link = "/blog/"
-    description = "RSS feed of NerdsWay"
+    description = f"RSS feed of {BRAND_NAME}"
  
     def items(self, user):
         return Blog.objects.all()

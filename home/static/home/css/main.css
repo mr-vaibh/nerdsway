@@ -1597,8 +1597,8 @@ header .logo img {
 	border: none;
 	width: 60px;
 	height: 60px;
-	background: url("../images/favicon.png") no-repeat center;
-	background-size: 60px 60px;
+	/* background: url("../images/favicon.png") no-repeat center; */
+	/* background-size: 60px 60px; */
 	font: 0/0 a;
 	text-shadow: none;
 	color: transparent;

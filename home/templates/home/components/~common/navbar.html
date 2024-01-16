@@ -1,10 +1,15 @@
+{% load static %}
+
 <header class="short-header">
   <div class="gradient-block"></div>
 
   <div class="row header-content">
     <div class="logo" onclick="window.location='/'">
-      <img href="{% url 'home:index' %}" />
-      <span> | NERDSWAY</span>
+      <img href="{% url 'home:index' %}"
+        style="background: url('{% static "home/images/"|add:brand_logo %}') no-repeat center;
+              background-size: 60px 60px;"
+      />
+      <span> | {{ brand_name |upper }}</span>
     </div>
 
     {% with request.path as current_url %}

@@ -1,7 +1,7 @@
 {% extends "admin/base.html" %}
 {% load static %}
 
-{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | NerdsWay{% endblock %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ brand_name }}{% endblock %}
 
 {% comment %} {% block extrahead %}{{ block.super }}
 <style>
@@ -17,8 +17,8 @@
 {% block branding %}
     <h1 id="site-name">
         <a href="/admin" title="{{ title }}">
-            <img src="{% static 'home/images/logo.png' %}" height="40px" alt="nerdsway">
-            NERDSWAY Admin Panel
+            <img src="{% static 'home/images/logo.png' %}" height="40px" alt="{{ brand_name }}">
+            {{ brand_name |upper }} Admin Panel
         </a>
     </h1>
 {% endblock branding %}
