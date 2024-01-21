@@ -1,4 +1,5 @@
 {% load static %}
+{% load home_tags %}
 
 <header class="short-header">
   <div class="gradient-block"></div>
@@ -9,7 +10,7 @@
         style="background: url('{% static "home/images/"|add:brand_logo %}') no-repeat center;
               background-size: 60px 60px;"
       />
-      <span> | {{ brand_name |upper }}</span>
+      <span> | {% brand_name_cased %}</span>
     </div>
 
     {% with request.path as current_url %}
