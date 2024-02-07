@@ -44,6 +44,7 @@ DATABASES = {
     'default': env.db(),
 }
 DATABASES['default']['CONN_MAX_AGE'] = 60
+DATABASES['default']['OPTIONS'] = {'charset': 'utf8mb4'}
 
 # Whitenoise compression
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
